@@ -70,6 +70,19 @@ struct LessonListView: View {
                 .padding(.horizontal, 10)
             }
             
+            if viewModel.LessonList.isEmpty {
+                VStack(spacing : 10) {
+                    Spacer()
+                    Image(systemName : "exclamationmark.icloud.fill")
+                        .font(.system(size : 70))
+                        .foregroundColor(.gray)
+                    Text("해당 지역에 개설된 클래스가 없습니다 :(")
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            } else {
+            
             RefreshableScrollView(onRefresh : { done in
                 viewModel.isFetchDone = false
                 print("Fetch new post")
@@ -179,6 +192,7 @@ struct LessonListView: View {
                 }
                 //}
             }
+            }
         }.padding(.top)
         .navigationBarHidden(true)
         .navigationTitle(Text(""))
@@ -199,9 +213,12 @@ struct LessonListView: View {
         .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) {
             LessonInfoView(lesson : viewModel.selectedLesson)
         }
-        .onAppear { viewModel.fetchLessons() }
+        .onAppear {
+            viewModel.selectedDistrict = District
+            viewModel.fetchLessons()
+        }
         .onChange(of: District) { _ in
-            //viewModel.selectedDistrict = District
+            viewModel.selectedDistrict = District
             print("Fetch Lessons in " + District)
             viewModel.fetchLessons()
         }

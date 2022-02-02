@@ -10,6 +10,8 @@ import Combine
 import Alamofire
 
 final class LessonListViewModel : ObservableObject {
+    @Published var selectedDistrict : String = ""
+    
     @Published var LessonList : [Lesson] = []
     @Published var selectedLesson : Lesson = Lesson(
                                                 lessonId: 0,
@@ -36,15 +38,21 @@ final class LessonListViewModel : ObservableObject {
     @Published var sort_OnlyAvailable : Bool = false
     
     private var subscription = Set<AnyCancellable>()
-    private let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson"
     
     func fetchLessons() {
+        var baseUrl = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson/"
+        if selectedDistrict != "모든지역" { baseUrl += selectedDistrict }
+        let encodedString = baseUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let url = URL(string: encodedString)!
+        
+        print(url)
+        
         AF.request(url,
                    method: .get
         ).responseJSON { [weak self] response in
             guard let statusCode = response.response?.statusCode else { return }
             if statusCode == 200 { self?.isFetchDone = true }
-            //print(statusCode)
+            //print("statusCode : \(statusCode)")
             //print(response)
         }.publishDecodable(type : Lessons.self)
         .compactMap { $0.value }
