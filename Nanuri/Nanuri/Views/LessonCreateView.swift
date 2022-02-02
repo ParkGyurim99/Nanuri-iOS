@@ -133,23 +133,42 @@ struct LessonCreateView: View {
     }
     
     var body: some View {
-        VStack {
-            ScrollView {
-                ImageArea
-                InputField
+        ZStack {
+            VStack {
+                ScrollView {
+                    ImageArea
+                    InputField
+                }
+                BottomToolbar
+            }.blur(radius: viewModel.isUploadProcessing ? 2.0 : 0)
+            
+            if viewModel.isUploadProcessing {
+                Color.black.opacity(0.5)
+                    .edgesIgnoringSafeArea(.vertical)
+                    .frame(maxWidth : .infinity, maxHeight: .infinity)
+                    .overlay(
+                        VStack {
+                            ProgressView()
+                            Text("클래스 생성중..")
+                                .padding()
+                        }
+                    )
             }
-            BottomToolbar
         }.navigationBarTitleDisplayMode(.inline)
         .navigationTitle(Text("클래스 생성"))
+        .navigationBarBackButtonHidden(viewModel.isUploadProcessing ? true : false)
         .navigationBarItems(
             trailing:
                 Button {
-                    // 생성 API 호출
-                    viewModel.upload() // 모든 필드가 채워졌는지 조건 달거임
-                    // 뒤로가기
+                    // 생성 API 호출 .. button disable 조건 있어서 조건 안나눔.
+                    withAnimation {
+                        viewModel.isUploadProcessing = true
+                        viewModel.upload()
+                    }
                 } label : {
                     Text("완료")
-                }
+                        .opacity(viewModel.payloadFillCheck || viewModel.isUploadProcessing ? 0.3 : 1)
+                }.disabled(viewModel.payloadFillCheck || viewModel.isUploadProcessing)
         )
         .sheet(isPresented: $viewModel.showImagePicker) {
             PhotoPicker(
@@ -161,8 +180,8 @@ struct LessonCreateView: View {
             presentationMode.wrappedValue.dismiss()
         }.alert(isPresented: $viewModel.isUploadFail) {
             Alert(
-                title: Text("클래스 생성 실패"),
-                message: Text("클래스 생성 실패 메시지"),
+                title: Text("알림"),
+                message: Text("클래스 생성 실패"),
                 dismissButton: .default(Text("확인"))
             )
         }

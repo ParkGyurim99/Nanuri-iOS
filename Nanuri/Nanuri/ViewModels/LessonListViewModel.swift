@@ -32,7 +32,7 @@ final class LessonListViewModel : ObservableObject {
     @Published var selectedClassId = 0
     @Published var detailViewShow : Bool = false
     
-    @Published var isSortBtnClicked : Bool = false
+    //@Published var isSortBtnClicked : Bool = false
     @Published var sort_OnlyAvailable : Bool = false
     
     private var subscription = Set<AnyCancellable>()
