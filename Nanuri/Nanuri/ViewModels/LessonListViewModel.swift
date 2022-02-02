@@ -26,7 +26,7 @@ final class LessonListViewModel : ObservableObject {
                                                 images: []
                                             )
     
-    @Published var isFetchDone : Bool = false
+    //@Published var isFetchDone : Bool = false
     
     @Published var isSearching : Bool = false
     @Published var searchingText : String = ""
@@ -34,7 +34,6 @@ final class LessonListViewModel : ObservableObject {
     @Published var selectedClassId = 0
     @Published var detailViewShow : Bool = false
     
-    //@Published var isSortBtnClicked : Bool = false
     @Published var sort_OnlyAvailable : Bool = false
     
     private var subscription = Set<AnyCancellable>()
@@ -49,12 +48,14 @@ final class LessonListViewModel : ObservableObject {
         
         AF.request(url,
                    method: .get
-        ).responseJSON { [weak self] response in
-            guard let statusCode = response.response?.statusCode else { return }
-            if statusCode == 200 { self?.isFetchDone = true }
-            //print("statusCode : \(statusCode)")
-            //print(response)
-        }.publishDecodable(type : Lessons.self)
+        )
+//        .responseJSON { [weak self] response in
+//            guard let statusCode = response.response?.statusCode else { return }
+//            if statusCode == 200 { self?.isFetchDone = true }
+//            //print("statusCode : \(statusCode)")
+//            //print(response)
+//        }
+        .publishDecodable(type : Lessons.self)
         .compactMap { $0.value }
         .map { $0.body }
         .sink { completion in
