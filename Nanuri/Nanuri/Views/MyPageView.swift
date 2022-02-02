@@ -18,7 +18,9 @@ struct MyPageView: View {
     
     var Title : some View {
         HStack {
-            Text("My Page")
+            //Image(systemName: "person.circle")
+            //    .font(.system(size : 30))
+            Text("마이 페이지")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 //.frame(maxWidth : .infinity, alignment: .leading)

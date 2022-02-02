@@ -10,20 +10,26 @@ import PhotosUI
 import Alamofire
 
 final class LessonCreateViewModel : ObservableObject {
+    // Payload - Images
     @Published var showImagePicker : Bool = false
     @Published var selectedImages : [UIImage] = []
     
+    // Payload - Text contents
     @Published var titleText : String = ""
     @Published var categoryText : String = ""
     @Published var locationText : String = ""
     @Published var participantLimit : String = ""
     @Published var contentText : String = ""
     
+    // Upload Action
+    @Published var isUploadProcessing : Bool = false
     @Published var isUploadDone : Bool = false
     @Published var isUploadFail : Bool = false
     
-    private let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson"
-    private let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data" ]
+    var payloadFillCheck : Bool {
+        selectedImages.isEmpty || titleText.isEmpty || categoryText.isEmpty ||
+        locationText.isEmpty || participantLimit.isEmpty || contentText.isEmpty
+    } // 한가지라도 비워져 있으면 true
     
     var configuration : PHPickerConfiguration {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
@@ -34,6 +40,9 @@ final class LessonCreateViewModel : ObservableObject {
     }
     
     func upload() {
+        let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson"
+        let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data" ]
+        
         AF.upload(multipartFormData: { [weak self] multipartFormData in
             guard let self = self else { return }
             

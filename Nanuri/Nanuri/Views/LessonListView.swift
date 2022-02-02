@@ -70,6 +70,19 @@ struct LessonListView: View {
                 .padding(.horizontal, 10)
             }
             
+            if viewModel.LessonList.isEmpty {
+                VStack(spacing : 10) {
+                    Spacer()
+                    Image(systemName : "exclamationmark.icloud.fill")
+                        .font(.system(size : 70))
+                        .foregroundColor(.gray)
+                    Text("해당 지역에 개설된 클래스가 없습니다 :(")
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            } else {
+            
             RefreshableScrollView(onRefresh : { done in
                 viewModel.isFetchDone = false
                 print("Fetch new post")
@@ -90,45 +103,44 @@ struct LessonListView: View {
                 LazyVStack {
                     HStack {
                         Spacer()
-                    Button {
-                        viewModel.isSortBtnClicked = true
-                    } label : {
-                        HStack(spacing : 3) {
-                            Image(systemName : "arrow.up.arrow.down")
-                            Text("정렬").fontWeight(.semibold)
-                            Text(viewModel.sort_OnlyAvailable ? "(모집중인 클래스만)" : "(최신순)")
-                        }.foregroundColor(.black)
-                        .padding(4)
-                        .font(.system(size : 13))
-                        .background(Color.systemDefaultGray)
-                        .cornerRadius(10)
-
-                    }
+                        Button {
+                            //viewModel.isSortBtnClicked = true
+                            withAnimation(.spring()) { viewModel.sort_OnlyAvailable.toggle() }
+                        } label : {
+                            HStack(spacing : 3) {
+                                Image(systemName : viewModel.sort_OnlyAvailable ? "checkmark.circle.fill" : "checkmark.circle")
+                                    .foregroundColor(viewModel.sort_OnlyAvailable ? .blue : .gray)
+                                Text("모집중인 클래스만 보기")
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.black)
+                            }
+                            .padding(4)
+                            .font(.system(size : 13))
+                        }
                     }.padding(.horizontal)
                     .padding(.top, 5)
                     
-                    ForEach(viewModel.LessonList.filter {
-                        if !viewModel.searchingText.isEmpty {
-                            return $0.lessonName.lowercased().contains((viewModel.searchingText.lowercased()))
-                        } else if viewModel.sort_OnlyAvailable {
-                            return $0.status == true
-                        } else {
-                            return true
-                        }
-                    }, id : \.self) { lesson in
+                    ForEach(viewModel.LessonList
+                        .filter {
+                            if viewModel.sort_OnlyAvailable { return $0.status == viewModel.sort_OnlyAvailable }
+                            else { return true }
+                        }.filter {
+                            if !viewModel.searchingText.isEmpty { return $0.lessonName.lowercased().contains((viewModel.searchingText.lowercased())) }
+                            else { return true }
+                    } , id : \.self) { lesson in
                         Button {
                             viewModel.selectedLesson = lesson
                             viewModel.detailViewShow = true
                         } label : {
                             ZStack {
                                 if !lesson.images.isEmpty {
-                                URLImage(URL(string : lesson.images[0].lessonImgId.lessonImg)
-                                         ?? URL(string: "https://static.thenounproject.com/png/741653-200.png")!
-                                ) { image in
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                }.frame(maxWidth : .infinity, maxHeight : .infinity)
+                                    URLImage(URL(string : lesson.images[0].lessonImgId.lessonImg)
+                                             ?? URL(string: "https://static.thenounproject.com/png/741653-200.png")!
+                                    ) { image in
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                    }.frame(maxWidth : .infinity, maxHeight : .infinity)
                                     .overlay(
                                         LinearGradient(
                                             colors: [.black.opacity(0.01), .black.opacity(0.7)],
@@ -180,29 +192,33 @@ struct LessonListView: View {
                 }
                 //}
             }
+            }
         }.padding(.top)
         .navigationBarHidden(true)
         .navigationTitle(Text(""))
-        .actionSheet(isPresented: $viewModel.isSortBtnClicked) {
-            ActionSheet(title: Text("정렬"),
-                        //message: Text(""),
-                        buttons: [
-                            .default(Text("최신순")) {
-                                viewModel.sort_OnlyAvailable = false
-                            },
-                            .default(Text("모집중인 클래스만 보기")){
-                                viewModel.sort_OnlyAvailable = true
-                            },
-                            .cancel(Text("취소"))
-                        ]
-            )
-        }
+//        .actionSheet(isPresented: $viewModel.isSortBtnClicked) {
+//            ActionSheet(title: Text("정렬"),
+//                        //message: Text(""),
+//                        buttons: [
+//                            .default(Text("최신순")) {
+//                                viewModel.sort_OnlyAvailable = false
+//                            },
+//                            .default(Text("모집중인 클래스만 보기")){
+//                                viewModel.sort_OnlyAvailable = true
+//                            },
+//                            .cancel(Text("취소"))
+//                        ]
+//            )
+//        }
         .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) {
             LessonInfoView(lesson : viewModel.selectedLesson)
         }
-        .onAppear { viewModel.fetchLessons() }
+        .onAppear {
+            viewModel.selectedDistrict = District
+            viewModel.fetchLessons()
+        }
         .onChange(of: District) { _ in
-            //viewModel.selectedDistrict = District
+            viewModel.selectedDistrict = District
             print("Fetch Lessons in " + District)
             viewModel.fetchLessons()
         }

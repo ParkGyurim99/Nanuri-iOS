@@ -82,8 +82,8 @@ struct LessonInfoView: View {
                     }
                 }
             }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-                .frame(width: UIScreen.main.bounds.width, height: viewModel.isImageTap ? UIScreen.main.bounds.height * 0.9: UIScreen.main.bounds.height * 0.45)
-                .zIndex(5)
+            .frame(width: UIScreen.main.bounds.width, height: viewModel.isImageTap ? UIScreen.main.bounds.height * 0.9: UIScreen.main.bounds.height * 0.45)
+            .zIndex(5)
             .overlay (
                 VStack {
                     Spacer().frame(height : UIScreen.main.bounds.height * 0.04)
