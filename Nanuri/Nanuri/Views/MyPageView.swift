@@ -75,10 +75,10 @@ struct MyPageView: View {
                         // Appstore에서 네이버앱 링크 열기
                         //NaverThirdPartyLoginConnection.getSharedInstance().openAppStoreForNaverApp()
                         
-                        NaverThirdPartyLoginConnection.getSharedInstance().delegate = viewModel.self
-                        NaverThirdPartyLoginConnection
-                            .getSharedInstance()
-                            .requestThirdPartyLogin()
+                        UIApplication.shared.open(
+                            URL(string: "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + kConsumerKey + "&redirect_uri=nanuri://naverAuth")!,
+                            options: [:]
+                        )
                     }
                 } label : {
                     Image("naver_login_large")
@@ -143,7 +143,7 @@ struct MyPageView: View {
 //                    }
 //                }
 //            }
-            
+
             Spacer()
             Text("Kakao login auth code : \n" + viewModel.authorizationCodeKakao)
                 .fontWeight(.semibold)
@@ -183,14 +183,14 @@ struct MyPageView: View {
         .padding()
         .navigationBarHidden(true)
         .onOpenURL { url in // code를 파라미터로해서 서버에 jwt 발급 요청
-            print(url)
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                //kakaoc95be0b24be89d4167b238b296e8396d://oauth?code=UsV-pWTMvFKmWyklGZu1QCbRuhU2Jl2LNYo4EqMXsZcvfyPMWowoi7eRF9a2kb2WvrX9FAo9dNkAAAF-yh8FEw
                 // 카카오 로그인 리다이렉트일 경우
                 // ex) kakaoc95be0b24be89d4167b238b296e8396d://oauth?
                 //      code=c5ih7yqbTO3g0jBfVHcbPpNkurHZHUEcotDsqchDIx1avCIgwSGlDYltCCalX6n4CGv1sQo9cpcAAAF-yUFuzA
 
                 // url : redirect uri 랑 authorization code
-                
+                print("kakao authorization code -")
                 viewModel.authorizationCodeKakao = url.oauthResult().code ?? ""
                 
                 // -- Access Token 발급 요청
@@ -200,11 +200,6 @@ struct MyPageView: View {
                         .isNaverThirdPartyLoginAppschemeURL(url) {
                 // 네이버 로그인 리다이렉트일 경우
                 // ex) nanuri://thirdPartyLoginResult?version=2&code=0&authCode=lDDBH4j7LV1iMWGUWH
-                if UIApplication.shared.canOpenURL(url) {
-                    print("can open Url")
-                } else {
-                    print("can't open Url")
-                }
                 print("naver authorization code")
                 print(url.absoluteString)
                 if let authCode = url.absoluteString.components(separatedBy: "&").last?.components(separatedBy: "=").last {
