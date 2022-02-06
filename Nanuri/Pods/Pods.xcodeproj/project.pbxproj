@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = "naveridlogin-sdk-ios";
+			productName = "naveridlogin-sdk-ios";
 		};
 /* End PBXAggregateTarget section */
 
@@ -242,7 +243,7 @@
 		96FF1937551A5BCB1CC72D00F8C47602 /* Dictionary+Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Dictionary+Utils.swift"; path = "sources/KakaoSDKCommon/common/extension/Dictionary+Utils.swift"; sourceTree = "<group>"; };
 		97560F79BB6F6BCAF13B445167A77372 /* SdkCoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SdkCoder.swift; path = sources/KakaoSDKCommon/common/common/SdkCoder.swift; sourceTree = "<group>"; };
 		983EF7C9E3F39D1131869F707A525E9C /* Pods-Nanuri-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Nanuri-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F453801F27585052F413F613C847DB2 /* KakaoSDKAuth */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KakaoSDKAuth; path = KakaoSDKAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F5D195B080CA6BDBC3AB26F984DF6BF /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		9F9B9AACEACE6BEB999280F5BCB058EE /* Pods-Nanuri-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Nanuri-frameworks.sh"; sourceTree = "<group>"; };
@@ -376,7 +377,6 @@
 				2D1D4A1E3D93FD307A4BBF1080280791 /* TokenManager.swift */,
 				FEAADED65E2F3B0476BAFA6542C05CCE /* Support Files */,
 			);
-			name = KakaoSDKAuth;
 			path = KakaoSDKAuth;
 			sourceTree = "<group>";
 		};
@@ -386,7 +386,6 @@
 				D810AE40FC68840329F7E4EC3B0AC9D8 /* Frameworks */,
 				3A59767BBB1C240AD8B055BA85F0BCBC /* Support Files */,
 			);
-			name = "naveridlogin-sdk-ios";
 			path = "naveridlogin-sdk-ios";
 			sourceTree = "<group>";
 		};
@@ -453,7 +452,6 @@
 				9F5D195B080CA6BDBC3AB26F984DF6BF /* Validation.swift */,
 				184B0CDC8AF0D85E93CCAB189B70963D /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -479,7 +477,6 @@
 				486B7877FEE48FAE3FACD966F41489A0 /* UserShippingAddresses.swift */,
 				5376A2FB42F03670E50C6E09C5005E5E /* Support Files */,
 			);
-			name = KakaoSDKUser;
 			path = KakaoSDKUser;
 			sourceTree = "<group>";
 		};
@@ -514,7 +511,6 @@
 				CF36052AFDDED9825F82B67F8D5B5972 /* Network */,
 				D5A5C7B14BD4CCB5F1617EDAE88E144F /* Support Files */,
 			);
-			name = KakaoSDKCommon;
 			path = KakaoSDKCommon;
 			sourceTree = "<group>";
 		};
@@ -778,7 +774,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1320;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 13.0";

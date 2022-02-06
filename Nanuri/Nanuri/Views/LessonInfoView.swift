@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import URLImage
+import Kingfisher
 
 struct LessonInfoView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -14,9 +14,7 @@ struct LessonInfoView: View {
     
     let lesson : Lesson
     
-    init(lesson : Lesson) {
-        self.lesson = lesson
-    }
+    init(lesson : Lesson) { self.lesson = lesson }
     
     var Title : some View {
         HStack {
@@ -71,14 +69,12 @@ struct LessonInfoView: View {
                         .edgesIgnoringSafeArea(.top)
                 } else {
                     ForEach(lesson.images, id : \.self) { image in
-                        URLImage(
-                            URL(string : image.lessonImgId.lessonImg)
-                            ?? URL(string : "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg")!
-                        ) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: viewModel.isImageTap ? .fit : .fill)
-                        }.edgesIgnoringSafeArea(.top)
+                        KFImage(URL(string : image.lessonImgId.lessonImg)
+                                ?? URL(string : "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg")!)
+                            .fade(duration : 0.5)
+                            .resizable()
+                            .aspectRatio(contentMode: viewModel.isImageTap ? .fit : .fill)
+                            .edgesIgnoringSafeArea(.top)
                     }
                 }
             }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))

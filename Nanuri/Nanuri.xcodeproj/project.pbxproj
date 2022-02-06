@@ -23,13 +23,12 @@
 		1A50674027A6D21B00D215AF /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50673F27A6D21B00D215AF /* String+Extension.swift */; };
 		1A50674227A6DD1000D215AF /* LessonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674127A6DD1000D215AF /* LessonModel.swift */; };
 		1A50674427A6DEDB00D215AF /* LessonCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674327A6DEDB00D215AF /* LessonCreateView.swift */; };
-		1A50674727A6E1AE00D215AF /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1A50674627A6E1AE00D215AF /* URLImage */; };
-		1A50674927A6E1AE00D215AF /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 1A50674827A6E1AE00D215AF /* URLImageStore */; };
 		1A50674C27A6ED2900D215AF /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674B27A6ED2900D215AF /* PhotoPicker.swift */; };
 		1A50674E27A6EE1D00D215AF /* LessonCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */; };
 		1A50675027A709BC00D215AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A50674F27A709BC00D215AF /* GoogleService-Info.plist */; };
 		1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */; };
 		1A7F243527A831BE00C20F26 /* LessonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */; };
+		1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1A80360A27AFF1A400EA256D /* Kingfisher */; };
 		308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,9 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A50674927A6E1AE00D215AF /* URLImageStore in Frameworks */,
+				1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */,
 				1A42CA0D27A4199500ACAEF6 /* SwiftUIPullToRefresh in Frameworks */,
-				1A50674727A6E1AE00D215AF /* URLImage in Frameworks */,
 				1A50672727A6C85E00D215AF /* Alamofire in Frameworks */,
 				308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */,
 			);
@@ -221,8 +219,7 @@
 			packageProductDependencies = (
 				1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */,
 				1A50672627A6C85E00D215AF /* Alamofire */,
-				1A50674627A6E1AE00D215AF /* URLImage */,
-				1A50674827A6E1AE00D215AF /* URLImageStore */,
+				1A80360A27AFF1A400EA256D /* Kingfisher */,
 			);
 			productName = Nanuri;
 			productReference = 1A42C9EA27A3CBED00ACAEF6 /* Nanuri.app */;
@@ -255,7 +252,7 @@
 			packageReferences = (
 				1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */,
 				1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */,
-				1A50674527A6E1AE00D215AF /* XCRemoteSwiftPackageReference "url-image" */,
+				1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 1A42C9EB27A3CBED00ACAEF6 /* Products */;
 			projectDirPath = "";
@@ -574,12 +571,12 @@
 				version = 5.4.4;
 			};
 		};
-		1A50674527A6E1AE00D215AF /* XCRemoteSwiftPackageReference "url-image" */ = {
+		1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				minimumVersion = 7.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -595,15 +592,10 @@
 			package = 1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		1A50674627A6E1AE00D215AF /* URLImage */ = {
+		1A80360A27AFF1A400EA256D /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1A50674527A6E1AE00D215AF /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
-		1A50674827A6E1AE00D215AF /* URLImageStore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1A50674527A6E1AE00D215AF /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImageStore;
+			package = 1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

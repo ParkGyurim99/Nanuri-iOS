@@ -11,21 +11,21 @@
         }
       },
       {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
+        "state": {
+          "branch": null,
+          "revision": "0c02c46cfdc0656ce74fd0963a75e5000a0b7f23",
+          "version": "7.1.2"
+        }
+      },
+      {
         "package": "SwiftUIPullToRefresh",
         "repositoryURL": "https://github.com/globulus/swiftui-pull-to-refresh",
         "state": {
           "branch": null,
           "revision": "5a1e0f8f239381df7e75a63e6d01e42633d0903f",
           "version": "1.1.5"
-        }
-      },
-      {
-        "package": "URLImage",
-        "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
-        "state": {
-          "branch": null,
-          "revision": "4042f955f1fdff00ced85545e1eecdbf969b5cd0",
-          "version": "3.1.1"
         }
       }
     ]

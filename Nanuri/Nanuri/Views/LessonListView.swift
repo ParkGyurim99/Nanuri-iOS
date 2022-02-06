@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SwiftUIPullToRefresh
-import URLImage
+import Kingfisher
 
 struct LessonListView: View {
     @StateObject private var viewModel = LessonListViewModel()
@@ -126,23 +126,20 @@ struct LessonListView: View {
                                 } label : {
                                     ZStack {
                                         if !lesson.images.isEmpty {
-                                            URLImage(URL(string : lesson.images[0].lessonImgId.lessonImg)
-                                                     ?? URL(string: "https://static.thenounproject.com/png/741653-200.png")!
-                                            ) { image in
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fill)
-                                            }.frame(maxWidth : .infinity, maxHeight : .infinity)
-                                            .overlay(
-                                                LinearGradient(
-                                                    colors: [.black.opacity(0.01), .black.opacity(0.7)],
-                                                    startPoint: .top,
-                                                    endPoint: .bottom
+                                            KFImage(URL(string : lesson.images[0].lessonImgId.lessonImg)
+                                                     ?? URL(string: "https://static.thenounproject.com/png/741653-200.png")!)
+                                                .resizable()
+                                                .fade(duration: 1.0)
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(maxWidth : .infinity, maxHeight : .infinity)
+                                                .overlay(
+                                                    LinearGradient(
+                                                        colors: [.black.opacity(0.01), .black.opacity(0.7)],
+                                                        startPoint: .top,
+                                                        endPoint: .bottom
+                                                    )
                                                 )
-                                            )
-                                        } else {
-                                            Color.blue
-                                        }
+                                        } else { Color.blue }
                                         
                                         VStack {
                                             HStack {

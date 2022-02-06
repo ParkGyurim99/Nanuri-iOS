@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import URLImage
 import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
 import NaverThirdPartyLogin
+import Kingfisher
 
 struct MyPageView: View {
     @StateObject private var viewModel = MyPageViewModel()
@@ -34,12 +34,7 @@ struct MyPageView: View {
                 //카카오톡이 깔려있는지 확인하는 함수
                 if (UserApi.isKakaoTalkLoginAvailable()) {
                     //카카오톡이 설치되어있다면 카카오톡을 통한 로그인 진행
-                    UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                        //print(oauthToken)
-                        //print(error)
-                        viewModel.getUserInfo()
-                        //isSignIn = true
-                    }
+                    UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in viewModel.getUserInfo() }
                 } else {
 //                        //카카오톡이 설치되어있지 않다면 사파리에서 카카오 계정을 통한 로그인 진행
 //                        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
@@ -129,13 +124,11 @@ struct MyPageView: View {
             // Kakao
             HStack {
                 if let profileImage = viewModel.profileImage {
-                    URLImage(profileImage) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 70, height: 70)
-                            .clipShape(Circle())
-                    }
+                    KFImage(profileImage)
+                        .resizable()
+                        .fade(duration: 10.0)
+                        .frame(width: 70, height: 70)
+                        .clipShape(Circle())
                 } else {
                     Color.white
                         .frame(width: 70, height: 70)
@@ -202,13 +195,11 @@ struct MyPageView: View {
             // Naver
             HStack {
                 if let profileImage = viewModel.profileImageNaver {
-                    URLImage(profileImage) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 70, height: 70)
-                            .clipShape(Circle())
-                    }
+                    KFImage(profileImage)
+                        .resizable()
+                        .fade(duration: 10.0)
+                        .frame(width: 70, height: 70)
+                        .clipShape(Circle())
                 } else {
                     Color.white
                         .frame(width: 70, height: 70)
@@ -282,14 +273,13 @@ struct MyPageView: View {
         .navigationBarHidden(true)
         .onOpenURL { url in // code를 파라미터로해서 서버에 jwt 발급 요청
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                //kakaoc95be0b24be89d4167b238b296e8396d://oauth?code=UsV-pWTMvFKmWyklGZu1QCbRuhU2Jl2LNYo4EqMXsZcvfyPMWowoi7eRF9a2kb2WvrX9FAo9dNkAAAF-yh8FEw
                 // 카카오 로그인 리다이렉트일 경우
                 // ex) kakaoc95be0b24be89d4167b238b296e8396d://oauth?
                 //      code=c5ih7yqbTO3g0jBfVHcbPpNkurHZHUEcotDsqchDIx1avCIgwSGlDYltCCalX6n4CGv1sQo9cpcAAAF-yUFuzA
 
-                // url : redirect uri 랑 authorization code
-                print("kakao authorization code -")
+                print("--kakao authorization code")
                 viewModel.authorizationCodeKakao = url.oauthResult().code ?? ""
+                print(viewModel.authorizationCodeKakao)
                 
                 // -- Access Token 발급 요청
                 //_ = AuthController.handleOpenUrl(url: url)
@@ -298,7 +288,7 @@ struct MyPageView: View {
                         .isNaverThirdPartyLoginAppschemeURL(url) {
                 // 네이버 로그인 리다이렉트일 경우
                 // ex) nanuri://thirdPartyLoginResult?version=2&code=0&authCode=lDDBH4j7LV1iMWGUWH
-                print("naver authorization code")
+                print("--naver authorization code")
                 print(url.absoluteString)
                 if let authCode = url.absoluteString.components(separatedBy: "&").last?.components(separatedBy: "=").last {
                     viewModel.authorizationCodeNaver = authCode
