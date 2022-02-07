@@ -6,20 +6,15 @@
 //
 
 import SwiftUI
-import URLImage
-import URLImageStore
 import KakaoSDKCommon
 import KakaoSDKAuth
 import NaverThirdPartyLogin
 
 @main
 struct NanuriApp: App {
-    let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
-    
     init() {
         // Kakao SDK
-        KakaoSDK.initSDK(appKey: "c95be0b24be89d4167b238b296e8396d")
-        
+        KakaoSDK.initSDK(appKey: "5999200bd2791859bfa2ab7f781dcf89")
         
         // Naver SDK
         NaverThirdPartyLoginConnection.getSharedInstance()?.isNaverAppOauthEnable = true // 네이버 앱으로 로그인 허용
@@ -38,28 +33,7 @@ struct NanuriApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.urlImageService, urlImageService)
                 .preferredColorScheme(.light)
-//                .onOpenURL { url in
-//                    print(url)
-//                    if NaverThirdPartyLoginConnection
-//                        .getSharedInstance()
-//                        .isNaverThirdPartyLoginAppschemeURL(url)
-//                    {
-//                        print("authorization code")
-//                        print(url.absoluteString)
-//                        //NaverThirdPartyLoginConnection
-//                        //    .getSharedInstance()
-//                        //    .receiveAccessToken(url)
-//                    }
-                    
-//                    if (AuthApi.isKakaoTalkLoginUrl(url)) {
-//                        print("--------------------")
-//                        print(url)
-//                        //_ = AuthController.handleOpenUrl(url: url)
-//                    }
-//                }
-                
         }
     }
 }

@@ -34,6 +34,10 @@ typedef enum {
 
 #define kServiceAppUrlScheme    @"nanuri"
 
-#define kConsumerKey            @"zjRbw3D7o9kY3VSgplI0"
-#define kConsumerSecret         @"CfZflv1teX"
-#define kServiceAppName         @"Nanuri"
+//#define kConsumerKey            @"zjRbw3D7o9kY3VSgplI0"
+#define kConsumerKey            @"EUdVjlVezKHHSaBLzwi4"
+//#define kConsumerSecret         @"CfZflv1teX"
+#define kConsumerSecret         @"CZyI1oRdaC"
+
+//#define kServiceAppName         @"Nanuri"
+#define kServiceAppName         @"nanuri-web"

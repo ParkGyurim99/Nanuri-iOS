@@ -120,152 +120,160 @@ struct MyPageView: View {
 //                }
 //            }
             TokenStatus
-            
+            Spacer()
             // Kakao
-            HStack {
-                if let profileImage = viewModel.profileImage {
-                    KFImage(profileImage)
-                        .resizable()
-                        .fade(duration: 10.0)
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                } else {
-                    Color.white
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                }
-
-                VStack(alignment : .leading, spacing : 10) {
-                    Text(viewModel.userName)
-                        .font(.system(.title2, design: .rounded))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    Text(viewModel.userMail)
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundColor(.gray)
-                }.padding(.leading, 10)
-                Spacer()
-                if AuthApi.hasToken() {
-                    Image(systemName : "k.circle.fill")
-                        .foregroundColor(.yellow)
-                        .font(.system(size : 20))
-                }
-            }
-            HStack {
-                Text("Kakao")
-                    .foregroundColor(.yellow)
-                    .fontWeight(.semibold)
-                Spacer()
-                Button {
-                    _ = AuthController.handleOpenUrl(
-                        url: URL(string : "kakaoc95be0b24be89d4167b238b296e8396d://oauth?code=" + String(viewModel.authorizationCodeKakao))!)
-                } label : {
-                    Text("토큰발급")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(20)
-                }
-                
-                Button {
-                    viewModel.accountSignOut()
-                } label : {
-                    Text("로그아웃")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.red)
-                        .cornerRadius(20)
-                }
-                
-                Button {
-                    viewModel.accountKakaoUnlink()
-                } label : {
-                    Text("연결끊기")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.darkGray)
-                        .cornerRadius(20)
-                }
+//            HStack {
+//                if let profileImage = viewModel.profileImage {
+//                    KFImage(profileImage)
+//                        .resizable()
+//                        .fade(duration: 10.0)
+//                        .frame(width: 70, height: 70)
+//                        .clipShape(Circle())
+//                } else {
+//                    Color.white
+//                        .frame(width: 70, height: 70)
+//                        .clipShape(Circle())
+//                }
+//
+//                VStack(alignment : .leading, spacing : 10) {
+//                    Text(viewModel.userName)
+//                        .font(.system(.title2, design: .rounded))
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.black)
+//                    Text(viewModel.userMail)
+//                        .font(.system(.subheadline, design: .rounded))
+//                        .foregroundColor(.gray)
+//                }.padding(.leading, 10)
+//                Spacer()
+//                if AuthApi.hasToken() {
+//                    Image(systemName : "k.circle.fill")
+//                        .foregroundColor(.yellow)
+//                        .font(.system(size : 20))
+//                }
+//            }
+//            HStack {
+//                Text("Kakao")
+//                    .foregroundColor(.yellow)
+//                    .fontWeight(.semibold)
+//                Spacer()
+//                Button {
+//                    _ = AuthController.handleOpenUrl(
+//                        url: URL(string : "kakaoc95be0b24be89d4167b238b296e8396d://oauth?code=" + String(viewModel.authorizationCodeKakao))!)
+//                } label : {
+//                    Text("토큰발급")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.blue)
+//                        .cornerRadius(20)
+//                }
+//
+//                Button {
+//                    viewModel.accountSignOut()
+//                } label : {
+//                    Text("로그아웃")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.red)
+//                        .cornerRadius(20)
+//                }
+//
+//                Button {
+//                    viewModel.accountKakaoUnlink()
+//                } label : {
+//                    Text("연결끊기")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.darkGray)
+//                        .cornerRadius(20)
+//                }
+//            }
+            
+            // Naver
+//            HStack {
+//                if let profileImage = viewModel.profileImageNaver {
+//                    KFImage(profileImage)
+//                        .resizable()
+//                        .fade(duration: 10.0)
+//                        .frame(width: 70, height: 70)
+//                        .clipShape(Circle())
+//                } else {
+//                    Color.white
+//                        .frame(width: 70, height: 70)
+//                        .clipShape(Circle())
+//                }
+//
+//                VStack(alignment : .leading, spacing : 10) {
+//                    Text(viewModel.userNameNaver)
+//                        .font(.system(.title2, design: .rounded))
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.black)
+//                    Text(viewModel.userMailNaver)
+//                        .font(.system(.subheadline, design: .rounded))
+//                        .foregroundColor(.gray)
+//                }.padding(.leading, 10)
+//                Spacer()
+//                if viewModel.isNaverLogined {
+//                    Image(systemName : "n.circle.fill")
+//                        .foregroundColor(.green)
+//                        .font(.system(size : 20))
+//                }
+//            }
+//            HStack {
+//                Text("Naver")
+//                    .foregroundColor(.green)
+//                    .fontWeight(.semibold)
+//                Spacer()
+//                Button {
+//                    NaverThirdPartyLoginConnection
+//                        .getSharedInstance()
+//                        .receiveAccessToken(
+//                            URL(string : "nanuri://thirdPartyLoginResult?version=2&code=0&authCode=" + viewModel.authorizationCodeNaver)
+//                        )
+//                } label : {
+//                    Text("토큰발급")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.blue)
+//                        .cornerRadius(20)
+//                }
+//
+//                Button {
+//                    NaverThirdPartyLoginConnection.getSharedInstance().resetToken()
+//                    viewModel.isNaverLogined = false
+//                } label : {
+//                    Text("로그아웃")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.red)
+//                        .cornerRadius(20)
+//                }
+//
+//                Button {
+//                    NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() // 연동 해제
+//                    viewModel.isNaverLogined = false
+//                } label : {
+//                    Text("연결끊기")
+//                        .fontWeight(.semibold)
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.darkGray)
+//                        .cornerRadius(20)
+//                }
+//            }
+            
+            Text(MyPageViewModel.tokenInfo.accessToken)
+            
+            Button {
+                viewModel.refrshToken()
+            } label : {
+                Text("refesh token")
             }
             
-            Divider()
-            // Naver
-            HStack {
-                if let profileImage = viewModel.profileImageNaver {
-                    KFImage(profileImage)
-                        .resizable()
-                        .fade(duration: 10.0)
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                } else {
-                    Color.white
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                }
-
-                VStack(alignment : .leading, spacing : 10) {
-                    Text(viewModel.userNameNaver)
-                        .font(.system(.title2, design: .rounded))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    Text(viewModel.userMailNaver)
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundColor(.gray)
-                }.padding(.leading, 10)
-                Spacer()
-                if viewModel.isNaverLogined {
-                    Image(systemName : "n.circle.fill")
-                        .foregroundColor(.green)
-                        .font(.system(size : 20))
-                }
-            }
-            HStack {
-                Text("Naver")
-                    .foregroundColor(.green)
-                    .fontWeight(.semibold)
-                Spacer()
-                Button {
-                    NaverThirdPartyLoginConnection
-                        .getSharedInstance()
-                        .receiveAccessToken(
-                            URL(string : "nanuri://thirdPartyLoginResult?version=2&code=0&authCode=" + viewModel.authorizationCodeNaver)
-                        )
-                } label : {
-                    Text("토큰발급")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(20)
-                }
-                
-                Button {
-                    NaverThirdPartyLoginConnection.getSharedInstance().resetToken()
-                    viewModel.isNaverLogined = false
-                } label : {
-                    Text("로그아웃")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.red)
-                        .cornerRadius(20)
-                }
-                
-                Button {
-                    NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() // 연동 해제
-                    viewModel.isNaverLogined = false
-                } label : {
-                    Text("연결끊기")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.darkGray)
-                        .cornerRadius(20)
-                }
-            }
             Profile
         } // VStack
         .onAppear{ viewModel.getUserInfo() }
@@ -281,6 +289,8 @@ struct MyPageView: View {
                 viewModel.authorizationCodeKakao = url.oauthResult().code ?? ""
                 print(viewModel.authorizationCodeKakao)
                 
+                viewModel.OAuthLogin(type: "kakao")
+                
                 // -- Access Token 발급 요청
                 //_ = AuthController.handleOpenUrl(url: url)
             } else if NaverThirdPartyLoginConnection
@@ -293,6 +303,8 @@ struct MyPageView: View {
                 if let authCode = url.absoluteString.components(separatedBy: "&").last?.components(separatedBy: "=").last {
                     viewModel.authorizationCodeNaver = authCode
                 }
+                
+                viewModel.OAuthLogin(type: "naver")
                 
                 // -- Access Token 발급 요청
                 //NaverThirdPartyLoginConnection

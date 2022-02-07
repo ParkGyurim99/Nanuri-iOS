@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A02A4CA27B0FEA8003D80CC /* OAuthLogin+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */; };
+		1A02A4CD27B17EF5003D80CC /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 1A02A4CC27B17EF5003D80CC /* FirebaseMessaging */; };
+		1A02A4D027B18648003D80CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A02A4CF27B18648003D80CC /* GoogleService-Info.plist */; };
 		1A42C9EE27A3CBED00ACAEF6 /* NanuriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A42C9ED27A3CBED00ACAEF6 /* NanuriApp.swift */; };
 		1A42C9F027A3CBED00ACAEF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A42C9EF27A3CBED00ACAEF6 /* ContentView.swift */; };
 		1A42C9F227A3CBEE00ACAEF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A42C9F127A3CBEE00ACAEF6 /* Assets.xcassets */; };
@@ -25,7 +28,6 @@
 		1A50674427A6DEDB00D215AF /* LessonCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674327A6DEDB00D215AF /* LessonCreateView.swift */; };
 		1A50674C27A6ED2900D215AF /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674B27A6ED2900D215AF /* PhotoPicker.swift */; };
 		1A50674E27A6EE1D00D215AF /* LessonCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */; };
-		1A50675027A709BC00D215AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A50674F27A709BC00D215AF /* GoogleService-Info.plist */; };
 		1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */; };
 		1A7F243527A831BE00C20F26 /* LessonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */; };
 		1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1A80360A27AFF1A400EA256D /* Kingfisher */; };
@@ -46,6 +48,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OAuthLogin+ResponseData.swift"; sourceTree = "<group>"; };
+		1A02A4CE27B17F14003D80CC /* Nanuri.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nanuri.entitlements; sourceTree = "<group>"; };
+		1A02A4CF27B18648003D80CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A42C9EA27A3CBED00ACAEF6 /* Nanuri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nanuri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A42C9ED27A3CBED00ACAEF6 /* NanuriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanuriApp.swift; sourceTree = "<group>"; };
 		1A42C9EF27A3CBED00ACAEF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,7 +69,6 @@
 		1A50674327A6DEDB00D215AF /* LessonCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCreateView.swift; sourceTree = "<group>"; };
 		1A50674B27A6ED2900D215AF /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCreateViewModel.swift; sourceTree = "<group>"; };
-		1A50674F27A709BC00D215AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonInfoViewModel.swift; sourceTree = "<group>"; };
 		48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nanuri.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +83,7 @@
 			files = (
 				1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */,
 				1A42CA0D27A4199500ACAEF6 /* SwiftUIPullToRefresh in Frameworks */,
+				1A02A4CD27B17EF5003D80CC /* FirebaseMessaging in Frameworks */,
 				1A50672727A6C85E00D215AF /* Alamofire in Frameworks */,
 				308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */,
 			);
@@ -108,7 +113,8 @@
 		1A42C9EC27A3CBED00ACAEF6 /* Nanuri */ = {
 			isa = PBXGroup;
 			children = (
-				1A50674F27A709BC00D215AF /* GoogleService-Info.plist */,
+				1A02A4CE27B17F14003D80CC /* Nanuri.entitlements */,
+				1A02A4CF27B18648003D80CC /* GoogleService-Info.plist */,
 				1A50673E27A6CED700D215AF /* Info.plist */,
 				1A42C9ED27A3CBED00ACAEF6 /* NanuriApp.swift */,
 				1A42CA0627A3DD2A00ACAEF6 /* Extension */,
@@ -157,6 +163,7 @@
 			children = (
 				1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */,
 				1A50674127A6DD1000D215AF /* LessonModel.swift */,
+				1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -220,6 +227,7 @@
 				1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */,
 				1A50672627A6C85E00D215AF /* Alamofire */,
 				1A80360A27AFF1A400EA256D /* Kingfisher */,
+				1A02A4CC27B17EF5003D80CC /* FirebaseMessaging */,
 			);
 			productName = Nanuri;
 			productReference = 1A42C9EA27A3CBED00ACAEF6 /* Nanuri.app */;
@@ -253,6 +261,7 @@
 				1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */,
 				1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				1A02A4CB27B17EF5003D80CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 1A42C9EB27A3CBED00ACAEF6 /* Products */;
 			projectDirPath = "";
@@ -270,7 +279,7 @@
 			files = (
 				1A42C9F527A3CBEE00ACAEF6 /* Preview Assets.xcassets in Resources */,
 				1A42C9F227A3CBEE00ACAEF6 /* Assets.xcassets in Resources */,
-				1A50675027A709BC00D215AF /* GoogleService-Info.plist in Resources */,
+				1A02A4D027B18648003D80CC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +348,7 @@
 				1A50674C27A6ED2900D215AF /* PhotoPicker.swift in Sources */,
 				1A50674027A6D21B00D215AF /* String+Extension.swift in Sources */,
 				1A42CA0227A3CD6300ACAEF6 /* LessonListView.swift in Sources */,
+				1A02A4CA27B0FEA8003D80CC /* OAuthLogin+ResponseData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +481,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Nanuri/Nanuri.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Nanuri/Preview Content\"";
@@ -504,6 +515,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Nanuri/Nanuri.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Nanuri/Preview Content\"";
@@ -555,6 +567,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1A02A4CB27B17EF5003D80CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/globulus/swiftui-pull-to-refresh";
@@ -582,6 +602,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A02A4CC27B17EF5003D80CC /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A02A4CB27B17EF5003D80CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */;
