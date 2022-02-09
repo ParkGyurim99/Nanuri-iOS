@@ -15,13 +15,13 @@ final class LessonInfoViewModel : ObservableObject {
     @Published var showDeleteConfirmationMessage : Bool = false
     
     func updateLessonStatus(_ lessonId : Int) {
-        let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson/\(lessonId)/updateStatus"
+        let url = baseURL + "/lesson/\(lessonId)/updateStatus"
         AF.request(url, method : .put)
             .responseJSON { response in print(response) }
     }
     
     func deleteLesson(_ lessonId : Int) {
-        let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson/\(lessonId)"
+        let url = baseURL + "/lesson/\(lessonId)"
         AF.request(url, method : .delete)
             .responseJSON { response in print(response) }
     }

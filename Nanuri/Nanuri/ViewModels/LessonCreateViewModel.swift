@@ -40,7 +40,7 @@ final class LessonCreateViewModel : ObservableObject {
     }
     
     func upload() {
-        let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson"
+        let url = baseURL + "/lesson"
         let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data" ]
         
         AF.upload(multipartFormData: { [weak self] multipartFormData in

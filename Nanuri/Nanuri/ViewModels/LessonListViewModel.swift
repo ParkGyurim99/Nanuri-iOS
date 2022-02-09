@@ -39,14 +39,14 @@ final class LessonListViewModel : ObservableObject {
     private var subscription = Set<AnyCancellable>()
     
     func fetchLessons() {
-        var baseUrl = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson/"
-        if selectedDistrict != "모든지역" { baseUrl += selectedDistrict }
-        let encodedString = baseUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let url = URL(string: encodedString)!
+        var url = baseURL + "/lesson/"
+        if selectedDistrict != "모든지역" { url += selectedDistrict }
+        let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let serviceURL = URL(string: encodedURL)!
         
         print(url)
         
-        AF.request(url,
+        AF.request(serviceURL,
                    method: .get
         )
 //        .responseJSON { [weak self] response in

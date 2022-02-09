@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1A02A4CA27B0FEA8003D80CC /* OAuthLogin+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */; };
-		1A02A4CD27B17EF5003D80CC /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 1A02A4CC27B17EF5003D80CC /* FirebaseMessaging */; };
-		1A02A4D027B18648003D80CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A02A4CF27B18648003D80CC /* GoogleService-Info.plist */; };
 		1A42C9EE27A3CBED00ACAEF6 /* NanuriApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A42C9ED27A3CBED00ACAEF6 /* NanuriApp.swift */; };
 		1A42C9F027A3CBED00ACAEF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A42C9EF27A3CBED00ACAEF6 /* ContentView.swift */; };
 		1A42C9F227A3CBEE00ACAEF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A42C9F127A3CBEE00ACAEF6 /* Assets.xcassets */; };
@@ -24,13 +22,14 @@
 		1A50672B27A6C88D00D215AF /* Lesson+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */; };
 		1A50672D27A6C9D500D215AF /* LessonListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50672C27A6C9D500D215AF /* LessonListViewModel.swift */; };
 		1A50674027A6D21B00D215AF /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50673F27A6D21B00D215AF /* String+Extension.swift */; };
-		1A50674227A6DD1000D215AF /* LessonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674127A6DD1000D215AF /* LessonModel.swift */; };
+		1A50674227A6DD1000D215AF /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674127A6DD1000D215AF /* Lesson.swift */; };
 		1A50674427A6DEDB00D215AF /* LessonCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674327A6DEDB00D215AF /* LessonCreateView.swift */; };
 		1A50674C27A6ED2900D215AF /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674B27A6ED2900D215AF /* PhotoPicker.swift */; };
 		1A50674E27A6EE1D00D215AF /* LessonCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */; };
 		1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */; };
 		1A7F243527A831BE00C20F26 /* LessonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */; };
 		1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1A80360A27AFF1A400EA256D /* Kingfisher */; };
+		1A9F67A727B3DD32009F21AE /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A627B3DD32009F21AE /* Service.swift */; };
 		308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +49,6 @@
 /* Begin PBXFileReference section */
 		1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OAuthLogin+ResponseData.swift"; sourceTree = "<group>"; };
 		1A02A4CE27B17F14003D80CC /* Nanuri.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Nanuri.entitlements; sourceTree = "<group>"; };
-		1A02A4CF27B18648003D80CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A42C9EA27A3CBED00ACAEF6 /* Nanuri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nanuri.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A42C9ED27A3CBED00ACAEF6 /* NanuriApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanuriApp.swift; sourceTree = "<group>"; };
 		1A42C9EF27A3CBED00ACAEF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -65,12 +63,13 @@
 		1A50672C27A6C9D500D215AF /* LessonListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonListViewModel.swift; sourceTree = "<group>"; };
 		1A50673E27A6CED700D215AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1A50673F27A6D21B00D215AF /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		1A50674127A6DD1000D215AF /* LessonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonModel.swift; sourceTree = "<group>"; };
+		1A50674127A6DD1000D215AF /* Lesson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		1A50674327A6DEDB00D215AF /* LessonCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCreateView.swift; sourceTree = "<group>"; };
 		1A50674B27A6ED2900D215AF /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCreateViewModel.swift; sourceTree = "<group>"; };
 		1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonInfoViewModel.swift; sourceTree = "<group>"; };
+		1A9F67A627B3DD32009F21AE /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nanuri.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E41246325191EFB35B4B5D0 /* Pods-Nanuri.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nanuri.release.xcconfig"; path = "Target Support Files/Pods-Nanuri/Pods-Nanuri.release.xcconfig"; sourceTree = "<group>"; };
 		9E9E74D8B018F552DD8C15BA /* Pods-Nanuri.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nanuri.debug.xcconfig"; path = "Target Support Files/Pods-Nanuri/Pods-Nanuri.debug.xcconfig"; sourceTree = "<group>"; };
@@ -83,7 +82,6 @@
 			files = (
 				1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */,
 				1A42CA0D27A4199500ACAEF6 /* SwiftUIPullToRefresh in Frameworks */,
-				1A02A4CD27B17EF5003D80CC /* FirebaseMessaging in Frameworks */,
 				1A50672727A6C85E00D215AF /* Alamofire in Frameworks */,
 				308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */,
 			);
@@ -114,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				1A02A4CE27B17F14003D80CC /* Nanuri.entitlements */,
-				1A02A4CF27B18648003D80CC /* GoogleService-Info.plist */,
 				1A50673E27A6CED700D215AF /* Info.plist */,
 				1A42C9ED27A3CBED00ACAEF6 /* NanuriApp.swift */,
 				1A42CA0627A3DD2A00ACAEF6 /* Extension */,
@@ -161,9 +158,9 @@
 		1A50672827A6C86B00D215AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */,
-				1A50674127A6DD1000D215AF /* LessonModel.swift */,
-				1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */,
+				1A50674127A6DD1000D215AF /* Lesson.swift */,
+				1A9F67A627B3DD32009F21AE /* Service.swift */,
+				1A9F67A527B3DD00009F21AE /* ResponseData */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,6 +182,15 @@
 				1A50674B27A6ED2900D215AF /* PhotoPicker.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		1A9F67A527B3DD00009F21AE /* ResponseData */ = {
+			isa = PBXGroup;
+			children = (
+				1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */,
+				1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */,
+			);
+			path = ResponseData;
 			sourceTree = "<group>";
 		};
 		426D22574031D2E3E27C6016 /* Pods */ = {
@@ -227,7 +233,6 @@
 				1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */,
 				1A50672627A6C85E00D215AF /* Alamofire */,
 				1A80360A27AFF1A400EA256D /* Kingfisher */,
-				1A02A4CC27B17EF5003D80CC /* FirebaseMessaging */,
 			);
 			productName = Nanuri;
 			productReference = 1A42C9EA27A3CBED00ACAEF6 /* Nanuri.app */;
@@ -261,7 +266,6 @@
 				1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */,
 				1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				1A02A4CB27B17EF5003D80CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 1A42C9EB27A3CBED00ACAEF6 /* Products */;
 			projectDirPath = "";
@@ -279,7 +283,6 @@
 			files = (
 				1A42C9F527A3CBEE00ACAEF6 /* Preview Assets.xcassets in Resources */,
 				1A42C9F227A3CBEE00ACAEF6 /* Assets.xcassets in Resources */,
-				1A02A4D027B18648003D80CC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,8 +340,9 @@
 				1A50672D27A6C9D500D215AF /* LessonListViewModel.swift in Sources */,
 				1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */,
 				1A50674E27A6EE1D00D215AF /* LessonCreateViewModel.swift in Sources */,
+				1A9F67A727B3DD32009F21AE /* Service.swift in Sources */,
 				1A42CA0F27A429F500ACAEF6 /* LessonInfoView.swift in Sources */,
-				1A50674227A6DD1000D215AF /* LessonModel.swift in Sources */,
+				1A50674227A6DD1000D215AF /* Lesson.swift in Sources */,
 				1A50674427A6DEDB00D215AF /* LessonCreateView.swift in Sources */,
 				1A42C9F027A3CBED00ACAEF6 /* ContentView.swift in Sources */,
 				1A42C9EE27A3CBED00ACAEF6 /* NanuriApp.swift in Sources */,
@@ -567,14 +571,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1A02A4CB27B17EF5003D80CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
-			};
-		};
 		1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/globulus/swiftui-pull-to-refresh";
@@ -602,11 +598,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1A02A4CC27B17EF5003D80CC /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1A02A4CB27B17EF5003D80CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
-		};
 		1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */;
