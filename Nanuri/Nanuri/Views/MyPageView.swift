@@ -13,9 +13,8 @@ import NaverThirdPartyLogin
 import Kingfisher
 
 struct MyPageView: View {
-    @AppStorage("loginType") var loginType : String = ""
-    
     @StateObject private var viewModel = MyPageViewModel()
+    @StateObject private var instance = User.shared
     
     var Title : some View {
         HStack {
@@ -32,9 +31,7 @@ struct MyPageView: View {
     var LoginOption : some View {
         VStack {
             Divider()
-            
-            // 토큰 정보 있을때 (JWT 정보가 있을때)
-            if let userInfo = viewModel.userInfo, let _ = MyPageViewModel.tokenInfo {
+            if let userInfo = instance.userInfo, let type = instance.loginType { // 토큰 정보 있을때 (JWT 정보가 있을때)
                 HStack(spacing : 10) {
                     KFImage(URL(string : userInfo.imageUrl)!)
                         .resizable()
@@ -49,7 +46,7 @@ struct MyPageView: View {
                             .foregroundColor(.gray)
                     }
                     Spacer()
-                    Image("loginWith_" + loginType)
+                    Image("loginWith_" + type)
                         .resizable()
                         .aspectRatio(contentMode : .fit)
                         .frame(width : 50)
@@ -72,9 +69,9 @@ struct MyPageView: View {
                                 print("loginWithKakaoTalk() success.")
 
                                 if let accessToken = oauthToken?.accessToken {
-                                    loginType = "kakao"
+                                    instance.loginType = "kakao"
                                     print("kakao access token : " + accessToken)
-                                    viewModel.OAuthLogin(type: loginType, accessToken: accessToken)
+                                    viewModel.OAuthLogin(type: instance.loginType!, accessToken: accessToken)
                                 }
                             }
                         }
@@ -167,41 +164,39 @@ struct MyPageView: View {
             Title
             LoginOption
             Spacer()
-            
-            if viewModel.userInfo != nil {
+            if instance.userInfo != nil {
                 Divider()
                 Button {
-                    if loginType == "naver" { NaverThirdPartyLoginConnection.getSharedInstance().resetToken() }
+                    if instance.loginType == "naver" { NaverThirdPartyLoginConnection.getSharedInstance().resetToken() }
                     else { viewModel.kakaoAccountSignOut() }
                     withAnimation {
-                        viewModel.userInfo = nil
-                        MyPageViewModel.tokenInfo = nil
+                        instance.userInfo = nil
+                        instance.loginType = nil
                     }
-                    loginType = ""
                 } label : {
-                    Text(loginType.uppercased() + " 로그아웃")
+                    Text("로그아웃")
                         .font(.headline)
                         .foregroundColor(.red)
                 }
                 Divider()
                 
                 Button {
-                    if loginType == "naver" { NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() }
+                    if instance.loginType == "naver" { NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() }
                     else { viewModel.kakaoAccountUnlink() }
                     
                     withAnimation {
-                        viewModel.userInfo = nil
-                        MyPageViewModel.tokenInfo = nil
+                        instance.userInfo = nil
+                        instance.loginType = nil
                     }
-                    loginType = ""
                 } label : {
-                    Text(loginType.uppercased() + " 연결끊기")
+                    Text("서비스 연동해제")
                         .font(.headline)
                         .foregroundColor(.red)
                 }
                 Divider()
             }
 
+            // MARK: TEMP
             Button { NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() } label : {
                 Text("naver unlink - temp button")
             }.padding()
@@ -209,6 +204,7 @@ struct MyPageView: View {
             Button { viewModel.refrshToken() } label : {
                 Text("token Refresh")
             }.padding()
+            
             Spacer()
         } // VStack
         .navigationBarHidden(true)
