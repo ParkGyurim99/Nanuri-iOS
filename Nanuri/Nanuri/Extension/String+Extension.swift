@@ -35,7 +35,9 @@ func convertReturnedDateString(_ timeString : String) -> String {
     } else if (86400 <= Int(timetravel)) && (Int(timetravel) < (86400 * 7)) { // 7일까지
         return "\(Int(timetravel) / 86400)일 전"
     } else {
-        str.removeSubrange(str.index(str.endIndex, offsetBy: -9)..<str.endIndex)
-        return str
+        str.removeSubrange(str.index(str.endIndex, offsetBy: -9)..<str.endIndex) // yyyy-MM-dd
+        let components = str.components(separatedBy: "-")
+        return components[0] + "년 " + components[1] + "월 " + components[2] + "일"
+        //return str
     }
 }

@@ -30,7 +30,7 @@
 		1A7F243527A831BE00C20F26 /* LessonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */; };
 		1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1A80360A27AFF1A400EA256D /* Kingfisher */; };
 		1A9F67A727B3DD32009F21AE /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A627B3DD32009F21AE /* Service.swift */; };
-		1A9F67A927B42748009F21AE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A827B42748009F21AE /* User.swift */; };
+		1A9F67A927B42748009F21AE /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A827B42748009F21AE /* UserService.swift */; };
 		308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,7 +71,7 @@
 		1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonInfoViewModel.swift; sourceTree = "<group>"; };
 		1A9F67A627B3DD32009F21AE /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		1A9F67A827B42748009F21AE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1A9F67A827B42748009F21AE /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nanuri.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E41246325191EFB35B4B5D0 /* Pods-Nanuri.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nanuri.release.xcconfig"; path = "Target Support Files/Pods-Nanuri/Pods-Nanuri.release.xcconfig"; sourceTree = "<group>"; };
 		9E9E74D8B018F552DD8C15BA /* Pods-Nanuri.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nanuri.debug.xcconfig"; path = "Target Support Files/Pods-Nanuri/Pods-Nanuri.debug.xcconfig"; sourceTree = "<group>"; };
@@ -160,9 +160,9 @@
 		1A50672827A6C86B00D215AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1A50674127A6DD1000D215AF /* Lesson.swift */,
 				1A9F67A627B3DD32009F21AE /* Service.swift */,
-				1A9F67A827B42748009F21AE /* User.swift */,
+				1A9F67A827B42748009F21AE /* UserService.swift */,
+				1A50674127A6DD1000D215AF /* Lesson.swift */,
 				1A9F67A527B3DD00009F21AE /* ResponseData */,
 			);
 			path = Models;
@@ -356,7 +356,7 @@
 				1A50674027A6D21B00D215AF /* String+Extension.swift in Sources */,
 				1A42CA0227A3CD6300ACAEF6 /* LessonListView.swift in Sources */,
 				1A02A4CA27B0FEA8003D80CC /* OAuthLogin+ResponseData.swift in Sources */,
-				1A9F67A927B42748009F21AE /* User.swift in Sources */,
+				1A9F67A927B42748009F21AE /* UserService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

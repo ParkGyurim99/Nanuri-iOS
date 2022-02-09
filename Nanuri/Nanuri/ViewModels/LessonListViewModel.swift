@@ -28,6 +28,9 @@ final class LessonListViewModel : ObservableObject {
     
     //@Published var isFetchDone : Bool = false
     
+    @Published var showLessonCreationView : Bool = false
+    @Published var showNeedToLoginAlert : Bool = false
+    
     @Published var isSearching : Bool = false
     @Published var searchingText : String = ""
     
@@ -43,8 +46,6 @@ final class LessonListViewModel : ObservableObject {
         if selectedDistrict != "모든지역" { url += selectedDistrict }
         let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let serviceURL = URL(string: encodedURL)!
-        
-        print(url)
         
         AF.request(serviceURL,
                    method: .get

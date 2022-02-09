@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OAuthLoginResponse : Codable {
+struct OAuthLoginResponse : Codable, Equatable {
     var userId : Int
     var name : String
     var email : String
@@ -16,7 +16,7 @@ struct OAuthLoginResponse : Codable {
     var token : Token
 }
 
-struct Token : Codable {
+struct Token : Codable, Equatable {
     var tokenType : String
     var accessToken : String
     var accessTokenValidityInMilliseconds : Int

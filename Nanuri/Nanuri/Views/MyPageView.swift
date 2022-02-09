@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-import KakaoSDKCommon
-import KakaoSDKAuth
-import KakaoSDKUser
-import NaverThirdPartyLogin
 import Kingfisher
+
+// For distinguish redirected URL
+import NaverThirdPartyLogin
+import KakaoSDKAuth
 
 struct MyPageView: View {
     @StateObject private var viewModel = MyPageViewModel()
-    @StateObject private var instance = User.shared
+    @StateObject private var instance = UserService.shared
     
     var Title : some View {
         HStack {
@@ -60,42 +60,7 @@ struct MyPageView: View {
                 
                 // Kakao Login
                 Button {
-                    //카카오톡이 깔려있는지 확인하는 함수
-                    if (UserApi.isKakaoTalkLoginAvailable()) {
-                        //카카오톡이 설치되어있다면 카카오톡을 통한 로그인 진행
-                        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                            if let error = error { print(error) }
-                            else {
-                                print("loginWithKakaoTalk() success.")
-
-                                if let accessToken = oauthToken?.accessToken {
-                                    instance.loginType = "kakao"
-                                    print("kakao access token : " + accessToken)
-                                    viewModel.OAuthLogin(type: instance.loginType!, accessToken: accessToken)
-                                }
-                            }
-                        }
-                    } else {
-                        /*
-                        //카카오톡이 설치되어있지 않다면 사파리에서 카카오 계정을 통한 로그인 진행
-                        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                            if let error = error {
-                                print(error)
-                            }
-                            else {
-                                print("loginWithKakaoAccount() success.")
-
-                                //do something
-                                _ = oauthToken
-                            }
-                        }
-                        */
-                        
-                        // Appstore에서 카카오톡 열기
-                        if let url = URL(string: "itms-apps://itunes.apple.com/app/id362057947"), UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url, options: [:])
-                        }
-                    }
+                    instance.kakaoLogin()
                 } label : {
                     Image("kakao_login")
                         .resizable()
@@ -105,24 +70,7 @@ struct MyPageView: View {
                 
                 // Naver Login
                 Button {
-                    if NaverThirdPartyLoginConnection
-                        .getSharedInstance()
-                        .isPossibleToOpenNaverApp() // Naver App이 깔려있는지 확인하는 함수
-                    {
-                        NaverThirdPartyLoginConnection.getSharedInstance().delegate = viewModel.self
-                        NaverThirdPartyLoginConnection
-                            .getSharedInstance()
-                            .requestThirdPartyLogin()
-                    } else { // 네이버 앱 안깔려져 있을때
-                        // Appstore에서 네이버앱 열기
-                        //NaverThirdPartyLoginConnection.getSharedInstance().openAppStoreForNaverApp()
-                        
-                        // 브라우저로 네이버 로그인 열기
-                        UIApplication.shared.open(
-                            URL(string: "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + kConsumerKey + "&redirect_uri=nanuri://naverAuth")!,
-                            options: [:]
-                        )
-                    }
+                    instance.naverLogin()
                 } label : {
                     Image("naver_login")
                         .resizable()
@@ -138,7 +86,9 @@ struct MyPageView: View {
                 .frame(maxWidth : .infinity, maxHeight: .infinity)
                 .background(Color.black.opacity(0.5))
                 .opacity(viewModel.showLoginProgress ? 1 : 0)
-        )
+        ).onChange(of: instance.userInfo) { newValue in
+            if newValue != nil { viewModel.showLoginProgress = false }
+        }
     }
     var MyClasses : some View {
         VStack {
@@ -167,12 +117,7 @@ struct MyPageView: View {
             if instance.userInfo != nil {
                 Divider()
                 Button {
-                    if instance.loginType == "naver" { NaverThirdPartyLoginConnection.getSharedInstance().resetToken() }
-                    else { viewModel.kakaoAccountSignOut() }
-                    withAnimation {
-                        instance.userInfo = nil
-                        instance.loginType = nil
-                    }
+                    instance.logout()
                 } label : {
                     Text("로그아웃")
                         .font(.headline)
@@ -181,13 +126,8 @@ struct MyPageView: View {
                 Divider()
                 
                 Button {
-                    if instance.loginType == "naver" { NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() }
-                    else { viewModel.kakaoAccountUnlink() }
-                    
-                    withAnimation {
-                        instance.userInfo = nil
-                        instance.loginType = nil
-                    }
+                    instance.unlink()
+                    // 카카오계정 언링크 후에 다시 로그인 시도시 오류있음
                 } label : {
                     Text("서비스 연동해제")
                         .font(.headline)
@@ -196,13 +136,17 @@ struct MyPageView: View {
                 Divider()
             }
 
+            Spacer()
+            Divider()
+            Text("Force manipulation button").fontWeight(.semibold)
             // MARK: TEMP
             Button { NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() } label : {
-                Text("naver unlink - temp button")
-            }.padding()
-            
-            Button { viewModel.refrshToken() } label : {
-                Text("token Refresh")
+                VStack {
+                    Text("naver force unlink - temp button")
+                    Text("로그아웃 또는 연동해제 안하고 앱 종료 후 재실행시 로그인 오류날때 실행")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.4)
+                }
             }.padding()
             
             Spacer()
