@@ -9,20 +9,30 @@ import SwiftUI
 import Alamofire
 
 final class LessonInfoViewModel : ObservableObject {
+    @Published var lessonState : Bool = false
     @Published var seeMore : Bool = false
     @Published var viewOffset : CGFloat = 0
     @Published var isImageTap : Bool = false
     @Published var showDeleteConfirmationMessage : Bool = false
+    @Published var showActionSheet : Bool = false
     
     func updateLessonStatus(_ lessonId : Int) {
         let url = baseURL + "/lesson/\(lessonId)/updateStatus"
-        AF.request(url, method : .put)
+        guard let token = UserService.shared.userInfo?.token else { return }
+        let tokenPayload = token.tokenType + " " + token.accessToken
+        let header : HTTPHeaders = [ "X-AUTH-TOKEN" : tokenPayload ]
+        
+        AF.request(url, method : .put, headers: header)
             .responseJSON { response in print(response) }
     }
     
     func deleteLesson(_ lessonId : Int) {
         let url = baseURL + "/lesson/\(lessonId)"
-        AF.request(url, method : .delete)
+        guard let token = UserService.shared.userInfo?.token else { return }
+        let tokenPayload = token.tokenType + " " + token.accessToken
+        let header : HTTPHeaders = [ "X-AUTH-TOKEN" : tokenPayload ]
+        
+        AF.request(url, method : .delete, headers: header)
             .responseJSON { response in print(response) }
     }
 }

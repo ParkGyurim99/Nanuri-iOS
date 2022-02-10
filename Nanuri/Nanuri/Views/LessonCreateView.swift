@@ -150,6 +150,7 @@ struct LessonCreateView: View {
                         VStack {
                             ProgressView()
                             Text("클래스 생성중..")
+                                .foregroundColor(.darkGray)
                                 .padding()
                         }
                     )

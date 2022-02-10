@@ -72,7 +72,15 @@ struct LessonListView: View {
                 .padding(.horizontal, 10)
             }
             
-            if viewModel.LessonList.isEmpty {
+            if viewModel.isFetching {
+                VStack(spacing : 10) {
+                    Spacer()
+                    ProgressView()
+                    Text("클래스 로딩중..")
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            } else if viewModel.LessonList.isEmpty {
                 VStack(spacing : 10) {
                     Spacer()
                     Image(systemName : "exclamationmark.icloud.fill")

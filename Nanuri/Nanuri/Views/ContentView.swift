@@ -11,7 +11,7 @@ struct ContentView: View {
     @AppStorage("District") var selectedDistrict = "지역 선택"
     
     @State var isLocationBtnClicked : Bool = false
-    @State var selectedTab : Int = 1
+    @State var selectedTab : Int = 0
     
     var body: some View {
         NavigationView {

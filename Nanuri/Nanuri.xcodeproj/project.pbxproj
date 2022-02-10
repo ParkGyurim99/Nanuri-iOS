@@ -18,7 +18,6 @@
 		1A42CA0A27A417C800ACAEF6 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A42CA0927A417C800ACAEF6 /* View+Extension.swift */; };
 		1A42CA0D27A4199500ACAEF6 /* SwiftUIPullToRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = 1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */; };
 		1A42CA0F27A429F500ACAEF6 /* LessonInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A42CA0E27A429F500ACAEF6 /* LessonInfoView.swift */; };
-		1A50672727A6C85E00D215AF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1A50672627A6C85E00D215AF /* Alamofire */; };
 		1A50672B27A6C88D00D215AF /* Lesson+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */; };
 		1A50672D27A6C9D500D215AF /* LessonListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50672C27A6C9D500D215AF /* LessonListViewModel.swift */; };
 		1A50674027A6D21B00D215AF /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A50673F27A6D21B00D215AF /* String+Extension.swift */; };
@@ -84,7 +83,6 @@
 			files = (
 				1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */,
 				1A42CA0D27A4199500ACAEF6 /* SwiftUIPullToRefresh in Frameworks */,
-				1A50672727A6C85E00D215AF /* Alamofire in Frameworks */,
 				308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,7 +232,6 @@
 			name = Nanuri;
 			packageProductDependencies = (
 				1A42CA0C27A4199500ACAEF6 /* SwiftUIPullToRefresh */,
-				1A50672627A6C85E00D215AF /* Alamofire */,
 				1A80360A27AFF1A400EA256D /* Kingfisher */,
 			);
 			productName = Nanuri;
@@ -267,7 +264,6 @@
 			mainGroup = 1A42C9E127A3CBED00ACAEF6;
 			packageReferences = (
 				1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */,
-				1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 1A42C9EB27A3CBED00ACAEF6 /* Products */;
@@ -583,14 +579,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = exactVersion;
-				version = 5.4.4;
-			};
-		};
 		1A80360927AFF1A400EA256D /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -606,11 +594,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A42CA0B27A4199500ACAEF6 /* XCRemoteSwiftPackageReference "swiftui-pull-to-refresh" */;
 			productName = SwiftUIPullToRefresh;
-		};
-		1A50672627A6C85E00D215AF /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1A50672527A6C85E00D215AF /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
 		};
 		1A80360A27AFF1A400EA256D /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

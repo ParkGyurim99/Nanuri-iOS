@@ -15,7 +15,7 @@ final class LessonListViewModel : ObservableObject {
     @Published var LessonList : [Lesson] = []
     @Published var selectedLesson : Lesson = Lesson(
                                                 lessonId: 0,
-                                                creator: "",
+                                                creator: 0,
                                                 lessonName: "Title",
                                                 category: "Category",
                                                 location: "Location",
@@ -26,7 +26,7 @@ final class LessonListViewModel : ObservableObject {
                                                 images: []
                                             )
     
-    //@Published var isFetchDone : Bool = false
+    @Published var isFetching : Bool = true
     
     @Published var showLessonCreationView : Bool = false
     @Published var showNeedToLoginAlert : Bool = false
@@ -47,15 +47,17 @@ final class LessonListViewModel : ObservableObject {
         let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let serviceURL = URL(string: encodedURL)!
         
+        isFetching = true
+        
         AF.request(serviceURL,
                    method: .get
         )
-//        .responseJSON { [weak self] response in
-//            guard let statusCode = response.response?.statusCode else { return }
-//            if statusCode == 200 { self?.isFetchDone = true }
-//            //print("statusCode : \(statusCode)")
-//            //print(response)
-//        }
+        .responseJSON { [weak self] response in
+            guard let statusCode = response.response?.statusCode else { return }
+            if statusCode == 200 { self?.isFetching = false }
+            print("statusCode : \(statusCode)")
+            print(response)
+        }
         .publishDecodable(type : Lessons.self)
         .compactMap { $0.value }
         .map { $0.body }

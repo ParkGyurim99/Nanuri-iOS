@@ -137,6 +137,7 @@ struct MyPageView: View {
             }
 
             Spacer()
+
             Divider()
             Text("Force manipulation button").fontWeight(.semibold)
             // MARK: TEMP
