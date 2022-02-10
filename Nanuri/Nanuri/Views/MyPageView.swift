@@ -32,7 +32,7 @@ struct MyPageView: View {
         VStack {
             Divider()
             if let userInfo = instance.userInfo, let type = instance.loginType { // 토큰 정보 있을때 (JWT 정보가 있을때)
-                HStack(spacing : 10) {
+                HStack(spacing : 15) {
                     KFImage(URL(string : userInfo.imageUrl)!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -41,9 +41,13 @@ struct MyPageView: View {
                     VStack(alignment : .leading, spacing : 5) {
                         Text(userInfo.name)
                             .font(.title3)
-                            .fontWeight(.semibold)
+                            .fontWeight(.bold)
+                            .lineLimit(1)
+                            
                         Text(userInfo.email)
+                            .font(.subheadline)
                             .foregroundColor(.gray)
+                            .lineLimit(1)
                     }
                     Spacer()
                     Image("loginWith_" + type)
@@ -80,6 +84,7 @@ struct MyPageView: View {
             }
             Divider()
         }.padding(.horizontal)
+            .blur(radius: viewModel.showLoginProgress ? 2.0 : 0)
         .overlay(
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
@@ -92,13 +97,21 @@ struct MyPageView: View {
     }
     var MyClasses : some View {
         VStack {
-            Text("My Classes (#)")
-                .font(.system(.title3, design: .rounded))
-                .fontWeight(.semibold)
-                .frame(maxWidth : .infinity, alignment: .leading)
+            HStack {
+                Text("내가 개설한 클래스(#)")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth : .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    
+                } label : {
+                    Text("더보기 ")
+                        .foregroundColor(.gray)
+                }
+            }
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(0..<3, id : \.self) { _ in
+                    ForEach(0..<4, id : \.self) { _ in
                         Color.gray
                             .opacity(0.5)
                             .frame(width: 120, height: 120)
@@ -106,13 +119,37 @@ struct MyPageView: View {
                     }
                 }
             }
-        }
+            Divider()
+            HStack {
+                Text("내가 신청한 클래스(#)")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth : .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    
+                } label : {
+                    Text("더보기 ")
+                        .foregroundColor(.gray)
+                }
+            }
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(0..<4, id : \.self) { _ in
+                        Color.gray
+                            .opacity(0.5)
+                            .frame(width: 120, height: 120)
+                            .cornerRadius(20)
+                    }
+                }
+            }
+        }.padding()
     }
     
     var body: some View {
         VStack {
             Title
             LoginOption
+            if instance.userInfo != nil { MyClasses }
             Spacer()
             if instance.userInfo != nil {
                 Divider()
@@ -122,6 +159,7 @@ struct MyPageView: View {
                     Text("로그아웃")
                         .font(.headline)
                         .foregroundColor(.red)
+                        .frame(maxWidth : .infinity)
                 }
                 Divider()
                 
@@ -132,31 +170,24 @@ struct MyPageView: View {
                     Text("서비스 연동해제")
                         .font(.headline)
                         .foregroundColor(.red)
+                        .frame(maxWidth : .infinity)
                 }
                 Divider()
             }
 
             Spacer()
-
-            Divider()
-            Text("Force manipulation button").fontWeight(.semibold)
-            // MARK: TEMP
-            Button { NaverThirdPartyLoginConnection.getSharedInstance().requestDeleteToken() } label : {
-                VStack {
-                    Text("naver force unlink - temp button")
-                    Text("로그아웃 또는 연동해제 안하고 앱 종료 후 재실행시 로그인 오류날때 실행")
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.4)
-                }
-            }.padding()
-            
-            Spacer()
         } // VStack
         .navigationBarHidden(true)
         .onOpenURL { url in
-            withAnimation { viewModel.showLoginProgress = true }
-            if (AuthApi.isKakaoTalkLoginUrl(url)) { _ = AuthController.handleOpenUrl(url: url) }
+            
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                withAnimation { viewModel.showLoginProgress = true }
+                _ = AuthController.handleOpenUrl(url: url)
+            }
             else if NaverThirdPartyLoginConnection.getSharedInstance().isNaverThirdPartyLoginAppschemeURL(url) {
+                withAnimation { viewModel.showLoginProgress = true }
+                print("Received URL : ")
+                print(url)
                 NaverThirdPartyLoginConnection.getSharedInstance().receiveAccessToken(url)
             }
         }

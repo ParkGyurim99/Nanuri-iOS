@@ -75,11 +75,13 @@ class UserService : NSObject, ObservableObject {
                 if let error = error { print(error.localizedDescription) }
                 else {
                     print("loginWithKakaoTalk() success.")
-
+                    TokenManager.manager.setToken(oauthToken)
+                    
                     if let accessToken = oauthToken?.accessToken {
                         self?.loginType = "kakao"
                         print("kakao access token : " + accessToken)
                         self?.OAuthLogin(type: "kakao", accessToken: accessToken)
+                        
                     }
                 }
             }
@@ -107,24 +109,14 @@ class UserService : NSObject, ObservableObject {
     }
     
     func naverLogin() {
-        if NaverThirdPartyLoginConnection
-            .getSharedInstance()
-            .isPossibleToOpenNaverApp() // Naver App이 깔려있는지 확인하는 함수
-        {
+//        if NaverThirdPartyLoginConnection
+//            .getSharedInstance()
+//            .isPossibleToOpenNaverApp() // Naver App이 깔려있는지 확인하는 함수
+//        { }
             NaverThirdPartyLoginConnection.getSharedInstance().delegate = self
             NaverThirdPartyLoginConnection
                 .getSharedInstance()
                 .requestThirdPartyLogin()
-        } else { // 네이버 앱 안깔려져 있을때
-            // Appstore에서 네이버앱 열기
-            //NaverThirdPartyLoginConnection.getSharedInstance().openAppStoreForNaverApp()
-
-            // 브라우저로 네이버 로그인 열기
-            UIApplication.shared.open(
-                URL(string: "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + kConsumerKey + "&redirect_uri=nanuri://naverAuth")!,
-                options: [:]
-            )
-        }
     }
     
     func logout() {
@@ -134,6 +126,7 @@ class UserService : NSObject, ObservableObject {
                     if let error = error { print(error) }
                     else {
                         print("Kakao account logout() success.")
+                        TokenManager.manager.deleteToken()
                         withAnimation {
                             self.loginType = nil
                             self.userInfo = nil
@@ -150,6 +143,7 @@ class UserService : NSObject, ObservableObject {
             default : print("Unknown login type")
         }
     }
+    
     func unlink() {
         switch loginType {
             case "kakao" :
@@ -157,6 +151,7 @@ class UserService : NSObject, ObservableObject {
                     if let error = error { print(error) }
                     else {
                         print("Kakao account unlink() success.")
+                        TokenManager.manager.deleteToken()
                         withAnimation {
                             self.loginType = nil
                             self.userInfo = nil
@@ -173,8 +168,6 @@ class UserService : NSObject, ObservableObject {
             default : print("Unknown login type")
         }
     }
-    
-    // social token 확인하는 함수
 }
 
 
