@@ -10,11 +10,17 @@ import Kingfisher
 
 struct LessonInfoView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var viewModel = LessonInfoViewModel()
+    @StateObject private var viewModel : LessonInfoViewModel
     
-    let lesson : Lesson
+    private let lesson : Lesson
+    private let isMyPost : Bool
     
-    init(lesson : Lesson) { self.lesson = lesson }
+    init(lesson : Lesson, viewModel : LessonInfoViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.lesson = lesson
+        if lesson.creator == UserService.shared.userInfo?.userId { self.isMyPost = true }
+        else { self.isMyPost = false }
+    }
     
     var Title : some View {
         HStack {
@@ -27,9 +33,19 @@ struct LessonInfoView: View {
                     .foregroundColor(.gray)
             }
             Spacer()
-            Text("##명 / \(lesson.limitedNumber)명")
-                .font(.title2)
-                .fontWeight(.semibold)
+            VStack(spacing : 5) {
+                Text("##명 / \(lesson.limitedNumber)명")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                
+                Text(viewModel.lessonStatus ? "모집중" : "모집완료")
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .padding(5)
+                    .background(viewModel.lessonStatus ? Color.green.opacity(0.8) : Color.red.opacity(0.8))
+                    .cornerRadius(20)
+            }
         }.padding(.horizontal)
     }
     
@@ -46,7 +62,7 @@ struct LessonInfoView: View {
                     .clipShape(Circle())
                 
                 VStack(alignment : .leading, spacing : 10) {
-                    Text(lesson.creator)
+                    Text("[memberId : \(lesson.creator)]")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
@@ -61,6 +77,50 @@ struct LessonInfoView: View {
         }.padding(.horizontal)
     }
     
+    var ClassActionBar : some View {
+        VStack {
+            Divider()
+            if isMyPost {
+                HStack {
+                   Spacer()
+                    Button {
+                        viewModel.showActionSheet = true
+                    } label : {
+                        HStack {
+                            Text("클래스 설정")
+                                .fontWeight(.semibold)
+                                .foregroundColor(.darkGray)
+                            Image(systemName: "slider.horizontal.3")
+                                .font(.system(size : 25))
+                                .foregroundColor(.darkGray)
+                        }.padding(5)
+                        .padding(.horizontal)
+                    }
+                }
+            } else {
+                if UserService.shared.userInfo == nil {
+                    Text("로그인 후 신청할 수 있습니다 😆")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
+                }
+                Button {
+//                    if UserService.shared.userInfo == nil {
+//                        print("로그인 후 이용하세요")
+//                    } else {
+                        print("신청 창으로 이동")
+//                    }
+                } label : {
+                    Text("신청하기")
+                        .strikethrough(!lesson.status)
+                        .foregroundColor(.white)
+                        .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
+                        .background(Color.blue.opacity(lesson.status  ? 1.0 : 0.5))
+                        .cornerRadius(20)
+                }.disabled(!lesson.status || UserService.shared.userInfo == nil)
+                    .opacity(UserService.shared.userInfo == nil  ? 0.5 : 1)
+            }
+        }
+    }
     var body: some View {
         VStack {
             TabView {
@@ -78,6 +138,7 @@ struct LessonInfoView: View {
                     }
                 }
             }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .frame(width: UIScreen.main.bounds.width, height: viewModel.isImageTap ? UIScreen.main.bounds.height * 0.9: UIScreen.main.bounds.height * 0.45)
             .zIndex(5)
             .overlay (
@@ -141,56 +202,35 @@ struct LessonInfoView: View {
                             .padding(.horizontal)
                     }
                 }
-                
                 Spacer()
-                Text("## TEMPORAL BUTTON")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth : .infinity, alignment : .leading)
-                    .padding(.horizontal)
-                Button {
-                    viewModel.updateLessonStatus(lesson.lessonId)
-                    presentationMode.wrappedValue.dismiss()
-                } label : {
-                    Text("상태 변경")
-                        .foregroundColor(.white)
-                        .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
-                        .background(Color.green)
-                        .cornerRadius(20)
-                }
-                Button {
-                    //viewModel.deleteLesson(lesson.lessonId)
-                    viewModel.showDeleteConfirmationMessage = true
-                } label : {
-                    Text("삭제")
-                        .foregroundColor(.white)
-                        .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
-                        .background(Color.red)
-                        .cornerRadius(20)
-                }
-                Button {
-                    print("Enroll")
-                } label : {
-                    Text("신청하기")
-                        .foregroundColor(.white)
-                        .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
-                        .background(Color.blue)
-                        .cornerRadius(20)
-                }
-                
+                ClassActionBar
             }
         }.offset(y : viewModel.viewOffset)
         .edgesIgnoringSafeArea(.top)
         .navigationBarTitleDisplayMode(.inline)
-        .actionSheet(isPresented: $viewModel.showDeleteConfirmationMessage) {
-            ActionSheet(title: Text("클래스 삭제"),
-                        message: Text("클래스를 삭제하시겠습니까?"),
+        .actionSheet(isPresented: $viewModel.showActionSheet) {
+            ActionSheet(title: Text("클래스 설정"),
                         buttons: [
-                            .destructive(Text("삭제")) {
-                                viewModel.deleteLesson(lesson.lessonId)
-                                presentationMode.wrappedValue.dismiss()
+                            .default(Text("모집 상태 변경")) {
+                                viewModel.updateLessonStatus(lesson.lessonId)
+                                //presentationMode.wrappedValue.dismiss()
+                                viewModel.lessonStatus.toggle()
+                            },
+                            .destructive(Text("클래스 삭제")) {
+                                viewModel.showDeleteConfirmationMessage = true
                             },
                             .cancel(Text("취소"))
                         ]
+            )
+        }
+        .alert(isPresented: $viewModel.showDeleteConfirmationMessage) {
+            Alert(title: Text("알림\n"),
+                  message : Text("클래스를 삭제하시겠습니까?"),
+                  primaryButton: .destructive(Text("클래스 삭제")) {
+                                        viewModel.deleteLesson(lesson.lessonId)
+                                        presentationMode.wrappedValue.dismiss()
+                                },
+                  secondaryButton: .cancel(Text("취소"))
             )
         }
         .gesture(

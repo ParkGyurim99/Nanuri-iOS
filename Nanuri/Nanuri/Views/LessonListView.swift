@@ -37,8 +37,10 @@ struct LessonListView: View {
                         .fontWeight(.semibold)
                 }
                 Spacer()
-                NavigationLink {
-                    LessonCreateView()
+                Button {
+                    // 로그인 되어 있다면
+                    if UserService.shared.userInfo != nil { viewModel.showLessonCreationView = true }
+                    else { viewModel.showNeedToLoginAlert = true }
                 } label : {
                     Image(systemName: "plus")
                         .foregroundColor(.black)
@@ -70,7 +72,15 @@ struct LessonListView: View {
                 .padding(.horizontal, 10)
             }
             
-            if viewModel.LessonList.isEmpty {
+            if viewModel.isFetching {
+                VStack(spacing : 10) {
+                    Spacer()
+                    ProgressView()
+                    Text("클래스 로딩중..")
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            } else if viewModel.LessonList.isEmpty {
                 VStack(spacing : 10) {
                     Spacer()
                     Image(systemName : "exclamationmark.icloud.fill")
@@ -85,6 +95,7 @@ struct LessonListView: View {
                 RefreshableScrollView(onRefresh : { done in
                     //viewModel.isFetchDone = false
                     print("Fetch new post (pull to refresh)")
+                    viewModel.isFetching = true
                     viewModel.fetchLessons()
                     withAnimation { viewModel.isSearching = false }
                     viewModel.searchingText = ""
@@ -194,15 +205,26 @@ struct LessonListView: View {
         }.padding(.top)
         .navigationBarHidden(true)
         .navigationTitle(Text(""))
-        .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) { LessonInfoView(lesson : viewModel.selectedLesson) }
+        .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) {
+            LessonInfoView(lesson : viewModel.selectedLesson, viewModel : LessonInfoViewModel(lessonStatus: viewModel.selectedLesson.status))
+        }
         .onAppear {
             viewModel.selectedDistrict = District
             viewModel.fetchLessons()
         }
         .onChange(of: District) { _ in
+            viewModel.isFetching = true
             viewModel.selectedDistrict = District
             print("Fetch Lessons in " + District)
             viewModel.fetchLessons()
+        }
+        .background(NavigationLink(destination : LessonCreateView(), isActive : $viewModel.showLessonCreationView){ })
+        .alert(isPresented: $viewModel.showNeedToLoginAlert) {
+            Alert(title: Text("알림\n"),
+                  message : Text("로그인 후 강좌를 생성할 수 있습니다 😆"),
+                  primaryButton : .destructive(Text("로그인")) { withAnimation { selectedTab = 1 } },
+                  secondaryButton : .cancel(Text("취소"))
+            )
         }
     }
 }

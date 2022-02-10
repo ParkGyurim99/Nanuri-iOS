@@ -40,8 +40,11 @@ final class LessonCreateViewModel : ObservableObject {
     }
     
     func upload() {
-        let url = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson"
-        let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data" ]
+        let url = baseURL + "/lesson"
+        guard let token = UserService.shared.userInfo?.token else { return }
+        let tokenPayload = token.tokenType + " " + token.accessToken
+        let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data",
+                                     "X-AUTH-TOKEN" : tokenPayload ]
         
         AF.upload(multipartFormData: { [weak self] multipartFormData in
             guard let self = self else { return }
@@ -51,7 +54,7 @@ final class LessonCreateViewModel : ObservableObject {
             }
             
             // TEMP CREATOR
-            multipartFormData.append("Test Admin".data(using: .utf8)!, withName : "creator", mimeType: "application/json")
+//            multipartFormData.append("Test Admin".data(using: .utf8)!, withName : "creator", mimeType: "application/json")
             
             multipartFormData.append(self.titleText.data(using: .utf8)!, withName : "lessonName", mimeType: "application/json")
             multipartFormData.append(self.categoryText.data(using: .utf8)!, withName : "category", mimeType: "application/json")

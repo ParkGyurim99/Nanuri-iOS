@@ -15,7 +15,7 @@ struct Lessons : Codable {
 
 struct Lesson : Codable, Hashable {
     var lessonId : Int
-    var creator : String
+    var creator : Int
     var lessonName : String
     var category : String
     var location : String
