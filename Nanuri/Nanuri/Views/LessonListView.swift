@@ -95,6 +95,7 @@ struct LessonListView: View {
                 RefreshableScrollView(onRefresh : { done in
                     //viewModel.isFetchDone = false
                     print("Fetch new post (pull to refresh)")
+                    viewModel.isFetching = true
                     viewModel.fetchLessons()
                     withAnimation { viewModel.isSearching = false }
                     viewModel.searchingText = ""
@@ -204,12 +205,15 @@ struct LessonListView: View {
         }.padding(.top)
         .navigationBarHidden(true)
         .navigationTitle(Text(""))
-        .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) { LessonInfoView(lesson : viewModel.selectedLesson) }
+        .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) {
+            LessonInfoView(lesson : viewModel.selectedLesson, viewModel : LessonInfoViewModel(lessonStatus: viewModel.selectedLesson.status))
+        }
         .onAppear {
             viewModel.selectedDistrict = District
             viewModel.fetchLessons()
         }
         .onChange(of: District) { _ in
+            viewModel.isFetching = true
             viewModel.selectedDistrict = District
             print("Fetch Lessons in " + District)
             viewModel.fetchLessons()

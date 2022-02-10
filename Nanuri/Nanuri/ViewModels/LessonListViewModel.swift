@@ -47,7 +47,7 @@ final class LessonListViewModel : ObservableObject {
         let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let serviceURL = URL(string: encodedURL)!
         
-        isFetching = true
+        //isFetching = true
         
         AF.request(serviceURL,
                    method: .get
@@ -55,8 +55,8 @@ final class LessonListViewModel : ObservableObject {
         .responseJSON { [weak self] response in
             guard let statusCode = response.response?.statusCode else { return }
             if statusCode == 200 { self?.isFetching = false }
-            print("statusCode : \(statusCode)")
-            print(response)
+            print("Lesson fetch statusCode : \(statusCode)")
+            //print(response)
         }
         .publishDecodable(type : Lessons.self)
         .compactMap { $0.value }

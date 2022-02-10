@@ -9,13 +9,17 @@ import SwiftUI
 import Alamofire
 
 final class LessonInfoViewModel : ObservableObject {
-    @Published var lessonState : Bool = false
+    @Published var lessonStatus : Bool
+    
     @Published var seeMore : Bool = false
     @Published var viewOffset : CGFloat = 0
     @Published var isImageTap : Bool = false
     @Published var showDeleteConfirmationMessage : Bool = false
     @Published var showActionSheet : Bool = false
     
+    init(lessonStatus : Bool) {
+        self.lessonStatus = lessonStatus
+    }
     func updateLessonStatus(_ lessonId : Int) {
         let url = baseURL + "/lesson/\(lessonId)/updateStatus"
         guard let token = UserService.shared.userInfo?.token else { return }
