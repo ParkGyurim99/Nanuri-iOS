@@ -7,4 +7,4 @@
 
 import Foundation
 
-let baseURL = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080"
+let baseURL = "http://ec2-3-38-33-84.ap-northeast-2.compute.amazonaws.com:8080"
