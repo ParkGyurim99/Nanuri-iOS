@@ -35,15 +35,13 @@ class MyPageViewModel : ObservableObject {
     }
     
     func getLessonsHostedByUser(hostId : Int) {
-        guard let token = UserService.shared.userInfo?.token else { return }
         let url = baseURL + "/user/\(hostId)/lesson"
-        let tokenPayload = token.tokenType + " " + token.accessToken
-        let header : HTTPHeaders = [ "X-AUTH-TOKEN" : tokenPayload ]
         
         AF.request(url,
                    method: .get,
-                   headers: header
+                   interceptor: authorizationInterceptor()
         )//.responseJSON { response in print(response) }
+        .validate()
         .publishDecodable(type : LessonsByUser.self)
         .compactMap { $0.value }
         .map { $0.body.lessonList }

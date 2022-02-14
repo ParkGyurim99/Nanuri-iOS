@@ -31,9 +31,8 @@ final class LessonInfoViewModel : ObservableObject {
         
         AF.request(url,
                    method: .get
-        ).responseJSON { response in
-            print(response)
-        }.publishDecodable(type : UserResponse.self)
+        ).responseJSON { response in print(response) }
+        .publishDecodable(type : UserResponse.self)
         .compactMap { $0.value }
         .map { $0.body }
         .sink { completion in
@@ -50,22 +49,24 @@ final class LessonInfoViewModel : ObservableObject {
     }
     
     func updateLessonStatus(_ lessonId : Int) {
-        guard let token = UserService.shared.userInfo?.token else { return }
         let url = baseURL + "/lesson/\(lessonId)/updateStatus"
-        let tokenPayload = token.tokenType + " " + token.accessToken
-        let header : HTTPHeaders = [ "X-AUTH-TOKEN" : tokenPayload ]
         
-        AF.request(url, method : .put, headers: header)
-            .responseJSON { response in print(response) }
+        print("Update status")
+        AF.request(url,
+                   method : .put,
+                   interceptor: authorizationInterceptor())
+            .validate()
+            .responseJSON { response in print("Update lesson status (\(response.response?.statusCode ?? 0))") }
     }
     
     func deleteLesson(_ lessonId : Int) {
-        guard let token = UserService.shared.userInfo?.token else { return }
         let url = baseURL + "/lesson/\(lessonId)"
-        let tokenPayload = token.tokenType + " " + token.accessToken
-        let header : HTTPHeaders = [ "X-AUTH-TOKEN" : tokenPayload ]
+
         
-        AF.request(url, method : .delete, headers: header)
-            .responseJSON { response in print(response) }
+        AF.request(url,
+                   method : .delete,
+                   interceptor: authorizationInterceptor())
+            .validate()
+            .responseJSON { response in print("Delete lesson (\(response.response?.statusCode ?? 0))") }
     }
 }

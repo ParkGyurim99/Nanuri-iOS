@@ -139,6 +139,7 @@ struct LessonInfoView: View {
             }
         }
     }
+    
     var body: some View {
         VStack {
             TabView {
