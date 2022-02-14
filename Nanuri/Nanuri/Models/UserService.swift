@@ -42,22 +42,30 @@ class UserService : NSObject, ObservableObject {
         }.store(in: &subscription)
     }
     
-    func refrshToken() {
+    func refrshToken(completion : @escaping (Result<Bool, Error>) -> ()) {
         let url = baseURL + "/token"
-        
-        guard let userInfo = UserService.shared.userInfo else { return }
-        let headerAuthInfo = userInfo.token.tokenType + " " + userInfo.token.accessToken
 
+        print("Try token refresh")
         AF.request(url,
                    method: .get,
-                   headers: ["X-AUTH-TOKEN" : headerAuthInfo]
-        ).responseJSON { response in print(response) }
+                   interceptor: authorizationInterceptor()
+        ).responseJSON { response in
+            guard let statusCode = response.response?.statusCode else { return }
+            switch statusCode {
+                case 200 :
+                    print("Refresh token success (\(statusCode))")
+                    completion(.success(true))
+                default :
+                    completion(.success(false))
+            }
+            print(response)
+        }
         .publishDecodable(type : Token.self)
         .compactMap { $0.value }
         .sink { completion in
             switch completion {
                 case let .failure(error) :
-                    print("Token Refresh Fail : " + error.localizedDescription)
+                    print("Token Refresh Error : " + error.localizedDescription)
                 case .finished :
                     print("Token Refresh Finished")
             }
@@ -198,5 +206,50 @@ extension UserService : UIApplicationDelegate, NaverThirdPartyLoginConnectionDel
     // 모든 Error
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
         print("[Error] :", error.localizedDescription)
+    }
+}
+
+// JWT Authorization interceptor
+class authorizationInterceptor : RequestInterceptor {
+    // Adapter for attaching JWT access token
+    func adapt(_ urlRequest: URLRequest,
+               for session: Session,
+               completion: @escaping (Result<URLRequest, Error>) -> Void
+    ) {
+        var urlRequest = urlRequest
+        guard let userInfo = UserService.shared.userInfo else { return }
+        
+        print("-- Attaching authentication header")
+        urlRequest.headers.add(
+            name: "X-AUTH-TOKEN",
+            value: userInfo.token.tokenType + " " + userInfo.token.accessToken
+        )
+        
+        completion(.success(urlRequest))
+    }
+    
+    // Retrier for authentication error (invalid access token)
+    func retry(_ request: Request,
+               for session: Session,
+               dueTo error: Error,
+               completion: @escaping (RetryResult) -> Void
+    ) {
+        guard let statusCode = request.response?.statusCode else { return }
+        print(statusCode)
+        
+        //MARK: Authentication Error
+        if statusCode == 403 {
+            print("-- Refresh token and Retry request")
+            UserService.shared.refrshToken { result in
+                switch result {
+                    case .success(true) :
+                        completion(.retry)
+                    case .success(false) :
+                        print("Token refresh error")
+                    case let .failure(error) :
+                        print("Retry error : " + error.localizedDescription)
+                }
+            }
+        } else { completion(.doNotRetry) }
     }
 }
