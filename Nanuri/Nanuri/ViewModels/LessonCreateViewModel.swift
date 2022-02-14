@@ -41,10 +41,7 @@ final class LessonCreateViewModel : ObservableObject {
     
     func upload() {
         let url = baseURL + "/lesson"
-        guard let token = UserService.shared.userInfo?.token else { return }
-        let tokenPayload = token.tokenType + " " + token.accessToken
-        let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data",
-                                     "X-AUTH-TOKEN" : tokenPayload ]
+        let header : HTTPHeaders = [ "Content-Type" : "multipart/form-data" ]
         
         AF.upload(multipartFormData: { [weak self] multipartFormData in
             guard let self = self else { return }
@@ -53,15 +50,13 @@ final class LessonCreateViewModel : ObservableObject {
                 multipartFormData.append(image.jpegData(compressionQuality : 1.0)!, withName : "images", fileName: "classImage.jpg", mimeType: "image/jpeg")
             }
             
-            // TEMP CREATOR
-//            multipartFormData.append("Test Admin".data(using: .utf8)!, withName : "creator", mimeType: "application/json")
-            
             multipartFormData.append(self.titleText.data(using: .utf8)!, withName : "lessonName", mimeType: "application/json")
             multipartFormData.append(self.categoryText.data(using: .utf8)!, withName : "category", mimeType: "application/json")
             multipartFormData.append(self.locationText.data(using: .utf8)!, withName : "location", mimeType: "application/json")
             multipartFormData.append(self.participantLimit.data(using: .utf8)!, withName : "limitedNumber", mimeType: "application/json")
             multipartFormData.append(self.contentText.data(using: .utf8)!, withName : "content", mimeType: "application/json")
-        }, to: URL(string : url)!, usingThreshold: UInt64.init(), method: .post, headers: header)
+        }, to: URL(string : url)!, usingThreshold: UInt64.init(), method: .post, headers: header, interceptor: authorizationInterceptor())
+        .validate()
         .responseJSON { [weak self] response in
             guard let statusCode = response.response?.statusCode else { return }
             print(statusCode)
@@ -71,7 +66,7 @@ final class LessonCreateViewModel : ObservableObject {
                 self?.isUploadDone = true
             default:
                 print("Upload fail")
-                self?.isUploadFail = true
+                //self?.isUploadFail = true
             }
         }
     }

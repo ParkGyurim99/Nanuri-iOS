@@ -42,10 +42,10 @@ class UserService : NSObject, ObservableObject {
         }.store(in: &subscription)
     }
     
-    func refrshToken(completion : @escaping (Result<Bool, Error>) -> ()) {
+    func refrshToken(completion : @escaping (Result<Bool, Error>) -> ()) { // 나중에 Result<Int, Error> 로 상태 코드에 따라 나눠도 될 듯
         let url = baseURL + "/token"
 
-        print("Try token refresh")
+        //print("Try token refresh")
         AF.request(url,
                    method: .get,
                    interceptor: authorizationInterceptor()
@@ -219,7 +219,7 @@ class authorizationInterceptor : RequestInterceptor {
         var urlRequest = urlRequest
         guard let userInfo = UserService.shared.userInfo else { return }
         
-        print("-- Attaching authentication header")
+        //print("-- Attaching authentication header")
         urlRequest.headers.add(
             name: "X-AUTH-TOKEN",
             value: userInfo.token.tokenType + " " + userInfo.token.accessToken
@@ -235,17 +235,20 @@ class authorizationInterceptor : RequestInterceptor {
                completion: @escaping (RetryResult) -> Void
     ) {
         guard let statusCode = request.response?.statusCode else { return }
-        print(statusCode)
+        print("status code catched by retrier : \(statusCode)")
         
-        //MARK: Authentication Error
+        //MARK: Authentication Error - Expired AccessToken
         if statusCode == 403 {
-            print("-- Refresh token and Retry request")
+            //print("-- Refresh token and Retry request")
             UserService.shared.refrshToken { result in
                 switch result {
                     case .success(true) :
-                        completion(.retry)
+                        //completion(.retry) // 토큰이 갱신 됐지만 저장 되기전에 실행될 수 도 있어서!
+                        completion(.retryWithDelay(TimeInterval(1.0)))
                     case .success(false) :
-                        print("Token refresh error")
+                        print("Token refresh error - Expired refresh token error")
+                        UserService.shared.userInfo = nil
+                        UserService.shared.loginType = nil
                     case let .failure(error) :
                         print("Retry error : " + error.localizedDescription)
                 }
