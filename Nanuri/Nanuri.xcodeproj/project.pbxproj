@@ -30,6 +30,7 @@
 		1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1A80360A27AFF1A400EA256D /* Kingfisher */; };
 		1A9F67A727B3DD32009F21AE /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A627B3DD32009F21AE /* Service.swift */; };
 		1A9F67A927B42748009F21AE /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A827B42748009F21AE /* UserService.swift */; };
+		1A9F67AD27B5519E009F21AE /* User+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67AC27B5519E009F21AE /* User+ResponseData.swift */; };
 		308EC39D055DA14CADDFE650 /* Pods_Nanuri.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonInfoViewModel.swift; sourceTree = "<group>"; };
 		1A9F67A627B3DD32009F21AE /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		1A9F67A827B42748009F21AE /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		1A9F67AC27B5519E009F21AE /* User+ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+ResponseData.swift"; sourceTree = "<group>"; };
 		48250DD62AA88D447B2E79D0 /* Pods_Nanuri.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nanuri.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E41246325191EFB35B4B5D0 /* Pods-Nanuri.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nanuri.release.xcconfig"; path = "Target Support Files/Pods-Nanuri/Pods-Nanuri.release.xcconfig"; sourceTree = "<group>"; };
 		9E9E74D8B018F552DD8C15BA /* Pods-Nanuri.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Nanuri.debug.xcconfig"; path = "Target Support Files/Pods-Nanuri/Pods-Nanuri.debug.xcconfig"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			children = (
 				1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */,
 				1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */,
+				1A9F67AC27B5519E009F21AE /* User+ResponseData.swift */,
 			);
 			path = ResponseData;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				1A50672D27A6C9D500D215AF /* LessonListViewModel.swift in Sources */,
 				1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */,
 				1A50674E27A6EE1D00D215AF /* LessonCreateViewModel.swift in Sources */,
+				1A9F67AD27B5519E009F21AE /* User+ResponseData.swift in Sources */,
 				1A9F67A727B3DD32009F21AE /* Service.swift in Sources */,
 				1A42CA0F27A429F500ACAEF6 /* LessonInfoView.swift in Sources */,
 				1A50674227A6DD1000D215AF /* Lesson.swift in Sources */,

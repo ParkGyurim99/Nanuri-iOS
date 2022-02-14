@@ -36,7 +36,8 @@ struct MyPageView: View {
                     KFImage(URL(string : userInfo.imageUrl)!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width : UIScreen.main.bounds.width * 0.15, height : UIScreen.main.bounds.width * 0.15)
+                        .frame(width : UIScreen.main.bounds.width * 0.15,
+                               height : UIScreen.main.bounds.width * 0.15)
                         .clipShape(Circle())
                     VStack(alignment : .leading, spacing : 5) {
                         Text(userInfo.name)
@@ -98,7 +99,7 @@ struct MyPageView: View {
     var MyClasses : some View {
         VStack {
             HStack {
-                Text("내가 개설한 클래스(#)")
+                Text("내가 개설한 클래스 (\(viewModel.lessonHostedByUser.count))")
                     .fontWeight(.semibold)
                     .frame(maxWidth : .infinity, alignment: .leading)
                 Spacer()
@@ -109,13 +110,41 @@ struct MyPageView: View {
                         .foregroundColor(.gray)
                 }
             }
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(0..<4, id : \.self) { _ in
-                        Color.gray
-                            .opacity(0.5)
+                    ForEach(viewModel.lessonHostedByUser, id : \.self) { lesson in
+                        Button {
+                            viewModel.selectedLesson = lesson
+                            viewModel.detailViewShow = true
+                        } label : {
+                            KFImage(URL(string : lesson.images[0].lessonImgId.lessonImg) ??
+                                    URL(string: "https://phito.be/wp-content/uploads/2020/01/placeholder.png")!
+                            ).placeholder {
+                                VStack {
+                                    ProgressView()
+                                    Text("로딩중..").foregroundColor(.gray)
+                                }
+                            }
+                            .resizable()
+                            .fade(duration: 0.5)
+                            .aspectRatio(contentMode : .fill)
                             .frame(width: 120, height: 120)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Text(lesson.lessonName)
+                                        .foregroundColor(.white)
+                                        .fontWeight(.medium)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.1)
+                                        .frame(maxWidth : .infinity, alignment : .trailing)
+                                        .padding(.horizontal, 3)
+                                        .padding(5)
+                                        .background(Color.black.opacity(0.7))
+                                }.frame(maxWidth : .infinity, maxHeight: .infinity)
+                            )
                             .cornerRadius(20)
+                        }
                     }
                 }
             }
@@ -132,7 +161,7 @@ struct MyPageView: View {
                         .foregroundColor(.gray)
                 }
             }
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(0..<4, id : \.self) { _ in
                         Color.gray
@@ -143,6 +172,20 @@ struct MyPageView: View {
                 }
             }
         }.padding()
+        .onAppear {
+            print("on appear")
+            if let userId = UserService.shared.userInfo?.userId {
+                viewModel.getLessonsHostedByUser(hostId: userId)
+            }
+        }
+        .fullScreenCover(isPresented: $viewModel.detailViewShow) {
+            LessonInfoView(
+                lesson : viewModel.selectedLesson,
+                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lessonStatus: viewModel.selectedLesson.status)
+            ).onDisappear {
+                viewModel.getLessonsHostedByUser(hostId: (UserService.shared.userInfo?.userId ?? -1))
+            }
+        }
     }
     
     var body: some View {

@@ -51,29 +51,47 @@ struct LessonInfoView: View {
     
     var MemberInfo : some View {
         VStack {
-            Divider()
-                .frame(width : UIScreen.main.bounds.width * 0.9)
-            HStack {
-                Image(systemName: "person.fill")
-                    .font(.system(size: 25))
-                    .padding()
-                    .foregroundColor(.white)
-                    .background(Color.darkGray)
+            Divider().frame(width : UIScreen.main.bounds.width * 0.9)
+            if let host = viewModel.hostUser {
+                HStack(spacing : 15) {
+                    KFImage(URL(string : host.imageUrl) ??
+                            URL(string: "https://phito.be/wp-content/uploads/2020/01/placeholder.png")!
+                    ).resizable()
+                    .fade(duration: 0.5)
+                    .aspectRatio(contentMode : .fill)
+                    .frame(width : UIScreen.main.bounds.width * 0.15,
+                           height : UIScreen.main.bounds.width * 0.15)
                     .clipShape(Circle())
-                
-                VStack(alignment : .leading, spacing : 10) {
-                    Text("[memberId : \(lesson.creator)]")
-                        .font(.system(.title2, design: .rounded))
+                    
+                    VStack(alignment : .leading, spacing : 5) {
+                        Text(host.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .lineLimit(1)
+                            
+                        Text(host.email)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
+                    }
+                    Spacer()
+                }
+            } else {
+                HStack {
+                    Image(systemName : "person.fill")
+                        .font(.system(size: 25))
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.darkGray)
+                        .clipShape(Circle())
+                    Text("유저 정보 찾을 수 없음")
+                        .font(.title2)
                         .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    Text("[User Description]")
-                        .font(.system(.subheadline, design: .rounded))
-                        .foregroundColor(.gray)
-                }.padding(.leading, 10)
-                Spacer()
+                        .foregroundColor(.darkGray)
+                    Spacer()
+                }
             }
-            Divider()
-                .frame(width : UIScreen.main.bounds.width * 0.9)
+            Divider().frame(width : UIScreen.main.bounds.width * 0.9)
         }.padding(.horizontal)
     }
     
