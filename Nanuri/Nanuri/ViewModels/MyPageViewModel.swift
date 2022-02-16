@@ -6,48 +6,55 @@
 //
 
 import Foundation
-import KakaoSDKCommon
-import KakaoSDKAuth
-import KakaoSDKUser
+import Alamofire
+import Combine
 
-final class MyPageViewModel : ObservableObject {
-    @Published var profileImage : URL?
-    @Published var userMail : String = ""
-    @Published var userName : String = ""
+class MyPageViewModel : ObservableObject {
+    @Published var showLoginProgress : Bool = false
+    @Published var lessonHostedByUser : [Lesson] = []
+    @Published var selectedLesson : Lesson = Lesson(
+                                                lessonId: 0,
+                                                creator: 0,
+                                                lessonName: "Title",
+                                                category: "Category",
+                                                location: "Location",
+                                                limitedNumber: 5,
+                                                content: "Content",
+                                                createDate: "",
+                                                status: true,
+                                                images: []
+                                            )
+    @Published var detailViewShow : Bool = false
     
-    func getUserInfo() {
-        UserApi.shared.me { [weak self] User, Error in
-            if let name = User?.kakaoAccount?.profile?.nickname {
-                self?.userName = name
-            }
-            if let mail = User?.kakaoAccount?.email {
-                self?.userMail = mail
-            }
-            if let profile = User?.kakaoAccount?.profile?.profileImageUrl {
-                self?.profileImage = profile
-            }
+    private var subscription = Set<AnyCancellable>()
+    
+    init() {
+        if let userId = UserService.shared.userInfo?.userId {
+            getLessonsHostedByUser(hostId: userId)
         }
     }
     
-    func accountSignOut() {
-        UserApi.shared.logout { (error) in
-            if let error = error {
-                print(error)
+    func getLessonsHostedByUser(hostId : Int) {
+        let url = baseURL + "/user/\(hostId)/lesson"
+        
+        AF.request(url,
+                   method: .get,
+                   interceptor: authorizationInterceptor()
+        )//.responseJSON { response in print(response) }
+        .validate()
+        .publishDecodable(type : LessonsByUser.self)
+        .compactMap { $0.value }
+        .map { $0.body.lessonList }
+        .sink { completion in
+            switch completion {
+                case let .failure(error) :
+                    print(error.localizedDescription)
+                case .finished :
+                    print("Get Lessons hosted by user \(hostId) Finished")
             }
-            else {
-                print("logout() success.")
-            }
-        }
-    }
-    
-    func accountKakaoUnlink() {
-        UserApi.shared.unlink { (error) in
-            if let error = error {
-                print(error)
-            }
-            else {
-                print("unlink() success.")
-            }
-        }
+        } receiveValue : { [weak self] receivedValue in
+            //print(receivedValue)
+            self?.lessonHostedByUser = receivedValue
+        }.store(in : &subscription)
     }
 }

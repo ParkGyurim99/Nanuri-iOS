@@ -6,119 +6,164 @@
 //
 
 import SwiftUI
-import URLImage
-import KakaoSDKCommon
+import Kingfisher
+
+// For distinguish redirected URL
+import NaverThirdPartyLogin
 import KakaoSDKAuth
-import KakaoSDKUser
 
 struct MyPageView: View {
-    @AppStorage("isSignIn") var isSignIn = false
-    
     @StateObject private var viewModel = MyPageViewModel()
+    @StateObject private var instance = UserService.shared
     
     var Title : some View {
         HStack {
-            //Image(systemName: "person.circle")
-            //    .font(.system(size : 30))
             Text("마이 페이지")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                //.frame(maxWidth : .infinity, alignment: .leading)
+                .padding(.horizontal)
+                .padding(.top)
             Spacer()
             Image(systemName: "gearshape.fill")
                 .font(.system(size: 25))
-        }
+        }.padding()
     }
-    var Profile : some View {
+    var LoginOption : some View {
         VStack {
             Divider()
-            if !isSignIn {
-                //MARK: Kakao Auth API TEMP
-                Button {
-                    //카카오톡이 깔려있는지 확인하는 함수
-                    if (UserApi.isKakaoTalkLoginAvailable()) {
-                        //카카오톡이 설치되어있다면 카카오톡을 통한 로그인 진행
-                        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                            //print(oauthToken)
-                            //print(error)
-                            viewModel.getUserInfo()
-                            isSignIn = true
-                        }
-                    } else {
-                        //카카오톡이 설치되어있지 않다면 사파리에서 카카오 계정을 통한 로그인 진행
-                        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                            //print(oauthToken)
-                            //print(error)
-                            viewModel.getUserInfo()
-                            isSignIn = true
-                        }
+            if let userInfo = instance.userInfo, let type = instance.loginType { // 토큰 정보 있을때 (JWT 정보가 있을때)
+                HStack(spacing : 15) {
+                    KFImage(URL(string : userInfo.imageUrl)!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width : UIScreen.main.bounds.width * 0.15,
+                               height : UIScreen.main.bounds.width * 0.15)
+                        .clipShape(Circle())
+                    VStack(alignment : .leading, spacing : 5) {
+                        Text(userInfo.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .lineLimit(1)
+                            
+                        Text(userInfo.email)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
                     }
+                    Spacer()
+                    Image("loginWith_" + type)
+                        .resizable()
+                        .aspectRatio(contentMode : .fit)
+                        .frame(width : 50)
+                }.padding(.horizontal)
+            } else {
+                Text("로그인 후 이용할 수 있습니다 😆")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.darkGray)
+                    .padding()
+                
+                // Kakao Login
+                Button {
+                    instance.kakaoLogin()
                 } label : {
-                    Image("kakao_login_large_wide")
+                    Image("kakao_login")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width : UIScreen.main.bounds.width * 0.9)
-                        .padding(.vertical, 10)
-                }
-            } else {
-                HStack {
-                    if let profileImage = viewModel.profileImage {
-                        URLImage(profileImage) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 70, height: 70)
-                                .clipShape(Circle())
-                        }
-                    } else {
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 25))
-                            .padding()
-                            .frame(width: 70, height: 70)
-                            .foregroundColor(.white)
-                            .background(Color.darkGray)
-                            .clipShape(Circle())
-                    }
-
-                    VStack(alignment : .leading, spacing : 10) {
-                        HStack(spacing : 5) {
-                            Text(viewModel.userName)
-                                .font(.system(.title2, design: .rounded))
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                            Image("kakao_small_logo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width : 30, height : 15)
-                                .cornerRadius(5)
-                        }
-                        Text(viewModel.userMail)
-                            .font(.system(.subheadline, design: .rounded))
-                            .foregroundColor(.gray)
-                    }.padding(.leading, 10)
-                    Spacer()
-                }.padding(.vertical, 10)
+                        .cornerRadius(20)
+                }.frame(maxWidth : .infinity)
+                
+                // Naver Login
+                Button {
+                    instance.naverLogin()
+                } label : {
+                    Image("naver_login")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(20)
+                }.frame(maxWidth : .infinity)
             }
             Divider()
-        }.padding(.bottom, 20)
-        //.onOpenURL { url in
-        //    if (AuthApi.isKakaoTalkLoginUrl(url)) { _ = AuthController.handleOpenUrl(url: url) }
-        //}
+        }.padding(.horizontal)
+            .blur(radius: viewModel.showLoginProgress ? 2.0 : 0)
+        .overlay(
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                .frame(maxWidth : .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .opacity(viewModel.showLoginProgress ? 1 : 0)
+        ).onChange(of: instance.userInfo) { newValue in
+            if newValue != nil { viewModel.showLoginProgress = false }
+        }
     }
-    
-    var body: some View {
+    var MyClasses : some View {
         VStack {
-            Title
-            Profile
-            
-            Text("My Classes (#)")
-                .font(.system(.title3, design: .rounded))
-                .fontWeight(.semibold)
-                .frame(maxWidth : .infinity, alignment: .leading)
-                
-            ScrollView(.horizontal) {
+            HStack {
+                Text("내가 개설한 클래스 (\(viewModel.lessonHostedByUser.count))")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth : .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    
+                } label : {
+                    Text("더보기 ")
+                        .foregroundColor(.gray)
+                }
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(0..<3, id : \.self) { _ in
+                    ForEach(viewModel.lessonHostedByUser, id : \.self) { lesson in
+                        Button {
+                            viewModel.selectedLesson = lesson
+                            viewModel.detailViewShow = true
+                        } label : {
+                            KFImage(URL(string : lesson.images[0].lessonImgId.lessonImg) ??
+                                    URL(string: "https://phito.be/wp-content/uploads/2020/01/placeholder.png")!
+                            ).placeholder {
+                                VStack {
+                                    ProgressView()
+                                    Text("로딩중..").foregroundColor(.gray)
+                                }
+                            }
+                            .resizable()
+                            .fade(duration: 0.5)
+                            .aspectRatio(contentMode : .fill)
+                            .frame(width: 120, height: 120)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Text(lesson.lessonName)
+                                        .foregroundColor(.white)
+                                        .fontWeight(.medium)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.1)
+                                        .frame(maxWidth : .infinity, alignment : .trailing)
+                                        .padding(.horizontal, 3)
+                                        .padding(5)
+                                        .background(Color.black.opacity(0.7))
+                                }.frame(maxWidth : .infinity, maxHeight: .infinity)
+                            )
+                            .cornerRadius(20)
+                        }
+                    }
+                }
+            }
+            Divider()
+            HStack {
+                Text("내가 신청한 클래스(#)")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth : .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    
+                } label : {
+                    Text("더보기 ")
+                        .foregroundColor(.gray)
+                }
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(0..<4, id : \.self) { _ in
                         Color.gray
                             .opacity(0.5)
                             .frame(width: 120, height: 120)
@@ -126,25 +171,69 @@ struct MyPageView: View {
                     }
                 }
             }
+        }.padding()
+        .onAppear {
+            print("on appear")
+            if let userId = UserService.shared.userInfo?.userId {
+                viewModel.getLessonsHostedByUser(hostId: userId)
+            }
+        }
+        .fullScreenCover(isPresented: $viewModel.detailViewShow) {
+            LessonInfoView(
+                lesson : viewModel.selectedLesson,
+                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lessonStatus: viewModel.selectedLesson.status)
+            ).onDisappear {
+                viewModel.getLessonsHostedByUser(hostId: (UserService.shared.userInfo?.userId ?? -1))
+            }
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            Title
+            LoginOption
+            if instance.userInfo != nil { MyClasses }
             Spacer()
-            if isSignIn {
+            if instance.userInfo != nil {
                 Divider()
                 Button {
-                    viewModel.accountSignOut()
-                    isSignIn = false
+                    instance.logout()
                 } label : {
                     Text("로그아웃")
-                        .fontWeight(.semibold)
+                        .font(.headline)
                         .foregroundColor(.red)
-                        .padding()
+                        .frame(maxWidth : .infinity)
+                }
+                Divider()
+                
+                Button {
+                    instance.unlink()
+                    // 카카오계정 언링크 후에 다시 로그인 시도시 오류있음
+                } label : {
+                    Text("서비스 연동해제")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                        .frame(maxWidth : .infinity)
                 }
                 Divider()
             }
+
             Spacer()
         } // VStack
-        .onAppear{ viewModel.getUserInfo() }
-        .padding()
         .navigationBarHidden(true)
+        .onOpenURL { url in
+            
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                withAnimation { viewModel.showLoginProgress = true }
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+            else if NaverThirdPartyLoginConnection.getSharedInstance().isNaverThirdPartyLoginAppschemeURL(url) {
+                withAnimation { viewModel.showLoginProgress = true }
+                print("Received URL : ")
+                print(url)
+                NaverThirdPartyLoginConnection.getSharedInstance().receiveAccessToken(url)
+            }
+        }
     }
 }
 

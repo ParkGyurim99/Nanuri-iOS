@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "btnG_icon_circle.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

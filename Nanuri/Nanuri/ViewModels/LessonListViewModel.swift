@@ -15,7 +15,7 @@ final class LessonListViewModel : ObservableObject {
     @Published var LessonList : [Lesson] = []
     @Published var selectedLesson : Lesson = Lesson(
                                                 lessonId: 0,
-                                                creator: "",
+                                                creator: 0,
                                                 lessonName: "Title",
                                                 category: "Category",
                                                 location: "Location",
@@ -26,7 +26,10 @@ final class LessonListViewModel : ObservableObject {
                                                 images: []
                                             )
     
-    //@Published var isFetchDone : Bool = false
+    @Published var isFetching : Bool = true
+    
+    @Published var showLessonCreationView : Bool = false
+    @Published var showNeedToLoginAlert : Bool = false
     
     @Published var isSearching : Bool = false
     @Published var searchingText : String = ""
@@ -39,22 +42,22 @@ final class LessonListViewModel : ObservableObject {
     private var subscription = Set<AnyCancellable>()
     
     func fetchLessons() {
-        var baseUrl = "http://ec2-3-39-19-215.ap-northeast-2.compute.amazonaws.com:8080/lesson/"
-        if selectedDistrict != "모든지역" { baseUrl += selectedDistrict }
-        let encodedString = baseUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let url = URL(string: encodedString)!
+        var url = baseURL + "/lesson/"
+        if selectedDistrict != "모든지역" { url += selectedDistrict }
+        let encodedURL = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let serviceURL = URL(string: encodedURL)!
         
-        print(url)
+        //isFetching = true
         
-        AF.request(url,
+        AF.request(serviceURL,
                    method: .get
         )
-//        .responseJSON { [weak self] response in
-//            guard let statusCode = response.response?.statusCode else { return }
-//            if statusCode == 200 { self?.isFetchDone = true }
-//            //print("statusCode : \(statusCode)")
-//            //print(response)
-//        }
+        .responseJSON { [weak self] response in
+            guard let statusCode = response.response?.statusCode else { return }
+            if statusCode == 200 { self?.isFetching = false }
+            print("Lesson fetch statusCode : \(statusCode)")
+            //print(response)
+        }
         .publishDecodable(type : Lessons.self)
         .compactMap { $0.value }
         .map { $0.body }
