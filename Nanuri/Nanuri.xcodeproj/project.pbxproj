@@ -28,6 +28,12 @@
 		1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */; };
 		1A7F243527A831BE00C20F26 /* LessonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */; };
 		1A80360B27AFF1A400EA256D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1A80360A27AFF1A400EA256D /* Kingfisher */; };
+		1A86194227BCE20E009808BA /* LessonApplicantModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86194127BCE20E009808BA /* LessonApplicantModalView.swift */; };
+		1A86194427BCE72D009808BA /* Applicant+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86194327BCE72D009808BA /* Applicant+ResponseData.swift */; };
+		1A86194627BCE7AF009808BA /* LessonApplicantModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86194527BCE7AF009808BA /* LessonApplicantModalViewModel.swift */; };
+		1A86194827BD2A81009808BA /* LessonParticipantModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86194727BD2A81009808BA /* LessonParticipantModalView.swift */; };
+		1A86194A27BD2A8F009808BA /* LessonParticipantModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86194927BD2A8F009808BA /* LessonParticipantModalViewModel.swift */; };
+		1A86194C27BD2F4B009808BA /* Participant+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86194B27BD2F4B009808BA /* Participant+ResponseData.swift */; };
 		1A9F67A727B3DD32009F21AE /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A627B3DD32009F21AE /* Service.swift */; };
 		1A9F67A927B42748009F21AE /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67A827B42748009F21AE /* UserService.swift */; };
 		1A9F67AD27B5519E009F21AE /* User+ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9F67AC27B5519E009F21AE /* User+ResponseData.swift */; };
@@ -70,6 +76,12 @@
 		1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCreateViewModel.swift; sourceTree = "<group>"; };
 		1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonInfoViewModel.swift; sourceTree = "<group>"; };
+		1A86194127BCE20E009808BA /* LessonApplicantModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonApplicantModalView.swift; sourceTree = "<group>"; };
+		1A86194327BCE72D009808BA /* Applicant+ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Applicant+ResponseData.swift"; sourceTree = "<group>"; };
+		1A86194527BCE7AF009808BA /* LessonApplicantModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonApplicantModalViewModel.swift; sourceTree = "<group>"; };
+		1A86194727BD2A81009808BA /* LessonParticipantModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonParticipantModalView.swift; sourceTree = "<group>"; };
+		1A86194927BD2A8F009808BA /* LessonParticipantModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonParticipantModalViewModel.swift; sourceTree = "<group>"; };
+		1A86194B27BD2F4B009808BA /* Participant+ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Participant+ResponseData.swift"; sourceTree = "<group>"; };
 		1A9F67A627B3DD32009F21AE /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		1A9F67A827B42748009F21AE /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		1A9F67AC27B5519E009F21AE /* User+ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+ResponseData.swift"; sourceTree = "<group>"; };
@@ -141,6 +153,8 @@
 				1A42C9EF27A3CBED00ACAEF6 /* ContentView.swift */,
 				1A42CA0127A3CD6300ACAEF6 /* LessonListView.swift */,
 				1A42CA0E27A429F500ACAEF6 /* LessonInfoView.swift */,
+				1A86194127BCE20E009808BA /* LessonApplicantModalView.swift */,
+				1A86194727BD2A81009808BA /* LessonParticipantModalView.swift */,
 				1A50674327A6DEDB00D215AF /* LessonCreateView.swift */,
 				1A42C9FF27A3CD5D00ACAEF6 /* MyPageView.swift */,
 			);
@@ -174,6 +188,8 @@
 				1A50672C27A6C9D500D215AF /* LessonListViewModel.swift */,
 				1A50674D27A6EE1C00D215AF /* LessonCreateViewModel.swift */,
 				1A7F243427A831BE00C20F26 /* LessonInfoViewModel.swift */,
+				1A86194527BCE7AF009808BA /* LessonApplicantModalViewModel.swift */,
+				1A86194927BD2A8F009808BA /* LessonParticipantModalViewModel.swift */,
 				1A7F243227A8055B00C20F26 /* MyPageViewModel.swift */,
 			);
 			path = ViewModels;
@@ -193,6 +209,8 @@
 				1A50672A27A6C88D00D215AF /* Lesson+ResponseData.swift */,
 				1A02A4C927B0FEA8003D80CC /* OAuthLogin+ResponseData.swift */,
 				1A9F67AC27B5519E009F21AE /* User+ResponseData.swift */,
+				1A86194327BCE72D009808BA /* Applicant+ResponseData.swift */,
+				1A86194B27BD2F4B009808BA /* Participant+ResponseData.swift */,
 			);
 			path = ResponseData;
 			sourceTree = "<group>";
@@ -339,7 +357,10 @@
 			files = (
 				1A7F243527A831BE00C20F26 /* LessonInfoViewModel.swift in Sources */,
 				1A42CA0827A3DD3600ACAEF6 /* Color+Extension.swift in Sources */,
+				1A86194A27BD2A8F009808BA /* LessonParticipantModalViewModel.swift in Sources */,
 				1A50672D27A6C9D500D215AF /* LessonListViewModel.swift in Sources */,
+				1A86194627BCE7AF009808BA /* LessonApplicantModalViewModel.swift in Sources */,
+				1A86194827BD2A81009808BA /* LessonParticipantModalView.swift in Sources */,
 				1A7F243327A8055B00C20F26 /* MyPageViewModel.swift in Sources */,
 				1A50674E27A6EE1D00D215AF /* LessonCreateViewModel.swift in Sources */,
 				1A9F67AD27B5519E009F21AE /* User+ResponseData.swift in Sources */,
@@ -352,10 +373,13 @@
 				1A50672B27A6C88D00D215AF /* Lesson+ResponseData.swift in Sources */,
 				1A42CA0027A3CD5D00ACAEF6 /* MyPageView.swift in Sources */,
 				1A42CA0A27A417C800ACAEF6 /* View+Extension.swift in Sources */,
+				1A86194C27BD2F4B009808BA /* Participant+ResponseData.swift in Sources */,
 				1A50674C27A6ED2900D215AF /* PhotoPicker.swift in Sources */,
 				1A50674027A6D21B00D215AF /* String+Extension.swift in Sources */,
 				1A42CA0227A3CD6300ACAEF6 /* LessonListView.swift in Sources */,
 				1A02A4CA27B0FEA8003D80CC /* OAuthLogin+ResponseData.swift in Sources */,
+				1A86194227BCE20E009808BA /* LessonApplicantModalView.swift in Sources */,
+				1A86194427BCE72D009808BA /* Applicant+ResponseData.swift in Sources */,
 				1A9F67A927B42748009F21AE /* UserService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

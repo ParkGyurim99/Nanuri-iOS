@@ -103,12 +103,6 @@ struct MyPageView: View {
                     .fontWeight(.semibold)
                     .frame(maxWidth : .infinity, alignment: .leading)
                 Spacer()
-                Button {
-                    
-                } label : {
-                    Text("더보기 ")
-                        .foregroundColor(.gray)
-                }
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -150,38 +144,60 @@ struct MyPageView: View {
             }
             Divider()
             HStack {
-                Text("내가 신청한 클래스(#)")
+                Text("내가 참가중인 클래스(\(viewModel.lessonUserParticipateIn.count)")
                     .fontWeight(.semibold)
                     .frame(maxWidth : .infinity, alignment: .leading)
                 Spacer()
-                Button {
-                    
-                } label : {
-                    Text("더보기 ")
-                        .foregroundColor(.gray)
-                }
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(0..<4, id : \.self) { _ in
-                        Color.gray
-                            .opacity(0.5)
+                    ForEach(viewModel.lessonUserParticipateIn, id : \.self) { lesson in
+                        Button {
+                            viewModel.selectedLesson = lesson
+                            viewModel.detailViewShow = true
+                        } label : {
+                            KFImage(URL(string : lesson.images[0].lessonImgId.lessonImg) ??
+                                    URL(string: "https://phito.be/wp-content/uploads/2020/01/placeholder.png")!
+                            ).placeholder {
+                                VStack {
+                                    ProgressView()
+                                    Text("로딩중..").foregroundColor(.gray)
+                                }
+                            }
+                            .resizable()
+                            .fade(duration: 0.5)
+                            .aspectRatio(contentMode : .fill)
                             .frame(width: 120, height: 120)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    Text(lesson.lessonName)
+                                        .foregroundColor(.white)
+                                        .fontWeight(.medium)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.1)
+                                        .frame(maxWidth : .infinity, alignment : .trailing)
+                                        .padding(.horizontal, 3)
+                                        .padding(5)
+                                        .background(Color.black.opacity(0.7))
+                                }.frame(maxWidth : .infinity, maxHeight: .infinity)
+                            )
                             .cornerRadius(20)
+                        }
                     }
                 }
             }
         }.padding()
         .onAppear {
-            print("on appear")
+            print("My page on appear")
             if let userId = UserService.shared.userInfo?.userId {
                 viewModel.getLessonsHostedByUser(hostId: userId)
+                viewModel.getLessonsUserParticipateIn(userId : userId)
             }
         }
         .fullScreenCover(isPresented: $viewModel.detailViewShow) {
-            LessonInfoView(
-                lesson : viewModel.selectedLesson,
-                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lessonStatus: viewModel.selectedLesson.status)
+            LessonInfoView(viewModel.selectedLesson.creator,
+                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lesson : viewModel.selectedLesson)
             ).onDisappear {
                 viewModel.getLessonsHostedByUser(hostId: (UserService.shared.userInfo?.userId ?? -1))
             }

@@ -206,10 +206,9 @@ struct LessonListView: View {
         .navigationBarHidden(true)
         .navigationTitle(Text(""))
         .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) {
-            LessonInfoView(
-                lesson : viewModel.selectedLesson,
-                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lessonStatus: viewModel.selectedLesson.status)
-            )
+            LessonInfoView(viewModel.selectedLesson.creator,
+                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lesson : viewModel.selectedLesson)
+            ).preferredColorScheme(.light)
         }
         .onAppear {
             viewModel.selectedDistrict = District

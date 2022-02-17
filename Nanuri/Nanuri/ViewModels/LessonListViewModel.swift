@@ -19,7 +19,7 @@ final class LessonListViewModel : ObservableObject {
                                                 lessonName: "Title",
                                                 category: "Category",
                                                 location: "Location",
-                                                limitedNumber: 5,
+                                                limitedNumber: 5, participantNumber: 0,
                                                 content: "Content",
                                                 createDate: "",
                                                 status: true,
