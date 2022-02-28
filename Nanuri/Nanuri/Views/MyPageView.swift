@@ -144,7 +144,7 @@ struct MyPageView: View {
             }
             Divider()
             HStack {
-                Text("내가 참가중인 클래스(\(viewModel.lessonUserParticipateIn.count)")
+                Text("내가 참가중인 클래스(\(viewModel.lessonUserParticipateIn.count))")
                     .fontWeight(.semibold)
                     .frame(maxWidth : .infinity, alignment: .leading)
                 Spacer()

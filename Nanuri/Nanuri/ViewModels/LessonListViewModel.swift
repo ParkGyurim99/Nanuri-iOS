@@ -75,7 +75,7 @@ final class LessonListViewModel : ObservableObject {
         } receiveValue: { [weak self] recievedValue in
             //print(recievedValue)
             self?.LessonList = recievedValue.reversed()
-            print(self?.LessonList)
+            //print(self?.LessonList)
         }.store(in: &subscription)
     }
 }

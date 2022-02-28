@@ -36,7 +36,20 @@ final class LessonInfoViewModel : ObservableObject {
     func fetchLessonInfo() {
         let url = baseURL + "/lesson/info/\(lesson.lessonId)"
         
-        AF.request(url, method: .get)
+        var request : DataRequest {
+            if let _ = UserService.shared.userInfo {
+                print("w/ authorization header")
+                return AF.request(url, method: .get, interceptor: authorizationInterceptor())
+            } else {
+                print("w/o authorization header")
+                return AF.request(url, method: .get)
+            }
+        }
+        
+        request
+            .responseJSON { response in
+                print(response)
+            }
             .publishDecodable(type : LessonInfo.self)
             .compactMap { $0.value }
             .map { $0.body }
@@ -49,6 +62,7 @@ final class LessonInfoViewModel : ObservableObject {
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.lesson = receivedValue
+                print(self?.lesson)
             }.store(in: &subscription)
     }
     

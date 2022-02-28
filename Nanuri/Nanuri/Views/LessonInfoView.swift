@@ -225,6 +225,7 @@ struct LessonInfoView: View {
         }.offset(y : viewModel.viewOffset)
         .edgesIgnoringSafeArea(.top)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear { viewModel.fetchLessonInfo() }
         .sheet(isPresented: $viewModel.showApplicant, onDismiss: viewModel.fetchLessonInfo) {
             LessonApplicantModalView(isPresented : $viewModel.showApplicant, lessonId : viewModel.lesson.lessonId)
         }
