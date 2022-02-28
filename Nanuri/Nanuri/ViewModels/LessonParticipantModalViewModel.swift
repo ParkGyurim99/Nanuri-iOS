@@ -10,7 +10,7 @@ import Alamofire
 import Combine
 
 final class LessonParticipantModalViewModel : ObservableObject {
-    @Published var participants : [Participant] = []
+    @Published var participants : [UserInfo] = []
     @Published var participantsInfo : [Int : UserInfo] = [:]
     @Published var isFetching : Bool = true
     @Published var showErrorAlert : Bool = false
@@ -34,40 +34,11 @@ final class LessonParticipantModalViewModel : ObservableObject {
                     print(error.localizedDescription)
                 case .finished :
                     print("Get Participant Finished")
-                    self?.getParticipantInfo()
+                    self?.isFetching = false
                 }
             } receiveValue: { [weak self] receivedValue in
                 self?.participants = receivedValue
             }.store(in: &subscription)
-    }
-    
-    func getParticipantInfo() {
-        if participants.isEmpty {
-            isFetching = false
-        } else {
-            for user in participants {
-                let userId = user.userId
-                let url = baseURL + "/user/info/\(userId)"
-
-                AF.request(url,
-                           method: .get
-                )//.responseJSON { response in print(response) }
-                .publishDecodable(type : UserResponse.self)
-                .compactMap { $0.value }
-                .map { $0.body }
-                .sink { [weak self] completion in
-                    switch completion {
-                    case let .failure(error) :
-                        print(error.localizedDescription)
-                    case .finished :
-                        print("Get User \(userId)'s info Finished")
-                        self?.isFetching = false
-                    }
-                } receiveValue: { [weak self] recievedValue in
-                    self?.participantsInfo[user.userId] = recievedValue
-                }.store(in: &subscription)
-            }
-        }
     }
     
     func deleteParticipant(_ lessonId : Int, _ userId : Int, completion : @escaping (Result<Bool, Error>) -> ()) {

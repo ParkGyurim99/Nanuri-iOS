@@ -19,10 +19,13 @@ final class LessonListViewModel : ObservableObject {
                                                 lessonName: "Title",
                                                 category: "Category",
                                                 location: "Location",
-                                                limitedNumber: 5, participantNumber: 0,
+                                                limitedNumber: 5,
+                                                participantNumber: 0,
                                                 content: "Content",
                                                 createDate: "",
                                                 status: true,
+                                                registrationStatus: nil,
+                                                participantStatus: nil,
                                                 images: []
                                             )
     
@@ -53,6 +56,7 @@ final class LessonListViewModel : ObservableObject {
                    method: .get
         )
         .responseJSON { [weak self] response in
+            print(response)
             guard let statusCode = response.response?.statusCode else { return }
             if statusCode == 200 { self?.isFetching = false }
             print("Lesson fetch statusCode : \(statusCode)")
@@ -71,7 +75,7 @@ final class LessonListViewModel : ObservableObject {
         } receiveValue: { [weak self] recievedValue in
             //print(recievedValue)
             self?.LessonList = recievedValue.reversed()
-            //print(self?.LessonList)
+            print(self?.LessonList)
         }.store(in: &subscription)
     }
 }

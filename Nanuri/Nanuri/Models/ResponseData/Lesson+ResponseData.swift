@@ -41,6 +41,8 @@ struct Lesson : Codable, Hashable {
     var content: String
     var createDate : String // "2022-01-30T19:36:46.307"
     var status : Bool
+    var registrationStatus : String?
+    var participantStatus : String?
     var images : [LessonImages]
 }
 

@@ -26,11 +26,10 @@ struct LessonParticipantModalView: View {
                 } else if viewModel.participants.isEmpty {
                     Text("클래스 참가자가 없습니다.")
                 } else {
-                    List {
-                        ForEach(viewModel.participants.indices, id : \.self) { index in
+                    ScrollView {
+                        ForEach(viewModel.participants, id : \.self) { participant in
                             HStack {
-                                KFImage(URL(string : viewModel.participantsInfo[viewModel.participants[index].userId]?.imageUrl
-                                           ?? "https://static.thenounproject.com/png/741653-200.png")!
+                                KFImage(URL(string : participant.imageUrl)!
                                 ).resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width : UIScreen.main.bounds.width * 0.15,
@@ -38,18 +37,18 @@ struct LessonParticipantModalView: View {
                                 .clipShape(Circle())
 
                                 VStack(alignment : .leading, spacing : 5) {
-                                    Text(viewModel.participantsInfo[viewModel.participants[index].userId]?.name ?? "")
+                                    Text(participant.name)
                                         .font(.title3)
                                         .fontWeight(.bold)
                                         .lineLimit(1)
-                                    Text(viewModel.participantsInfo[viewModel.participants[index].userId]?.email ?? "")
+                                    Text(participant.email)
                                         .font(.subheadline)
                                         .foregroundColor(.gray)
                                         .lineLimit(1)
                                 }
                                 Spacer()
                                 Button {
-                                    viewModel.deleteParticipant(lessonId, viewModel.participants[index].userId) { completion in
+                                    viewModel.deleteParticipant(lessonId, participant.userId) { completion in
                                         switch completion {
                                             case .success(true) :
                                                 isPresented = false
@@ -65,10 +64,11 @@ struct LessonParticipantModalView: View {
                                         .background(Color.red)
                                         .cornerRadius(10)
                                 }
-                            }
+                            }.padding(5)
+                            .padding(.horizontal, 10)
+                            Divider()
                         }
                     }.buttonStyle(BorderlessButtonStyle())
-                    .listStyle(PlainListStyle())
                 }
             }.onAppear {viewModel.getParticipant(lessonId)}
             .navigationBarTitle(Text("참가자 관리"))
