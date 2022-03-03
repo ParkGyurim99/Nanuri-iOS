@@ -47,9 +47,7 @@ final class LessonInfoViewModel : ObservableObject {
         }
         
         request
-            .responseJSON { response in
-                print(response)
-            }
+            .responseJSON { response in print("---", response) }
             .publishDecodable(type : LessonInfo.self)
             .compactMap { $0.value }
             .map { $0.body }
@@ -61,8 +59,8 @@ final class LessonInfoViewModel : ObservableObject {
                     print("Get Lesson Info Finished")
                 }
             } receiveValue: { [weak self] receivedValue in
+                print(receivedValue)
                 self?.lesson = receivedValue
-                print(self?.lesson)
             }.store(in: &subscription)
     }
     
@@ -71,7 +69,7 @@ final class LessonInfoViewModel : ObservableObject {
         
         AF.request(url,
                    method: .get
-        ).responseJSON { response in print(response) }
+        )//.responseJSON { response in print(response) }
         .publishDecodable(type : UserResponse.self)
         .compactMap { $0.value }
         .map { $0.body }

@@ -23,8 +23,8 @@ class MyPageViewModel : ObservableObject {
                                                 content: "Content",
                                                 createDate: "",
                                                 status: true,
-                                                registrationStatus: nil,
-                                                participantStatus: nil,
+                                                registrationStatus: false,
+                                                participantStatus: false,
                                                 images: []
                                             )
     @Published var detailViewShow : Bool = false
