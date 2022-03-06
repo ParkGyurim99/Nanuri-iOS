@@ -20,9 +20,12 @@ final class LessonListViewModel : ObservableObject {
                                                 category: "Category",
                                                 location: "Location",
                                                 limitedNumber: 5,
+                                                participantNumber: 0,
                                                 content: "Content",
                                                 createDate: "",
                                                 status: true,
+                                                registrationStatus: false,
+                                                participantStatus: false,
                                                 images: []
                                             )
     
@@ -53,6 +56,7 @@ final class LessonListViewModel : ObservableObject {
                    method: .get
         )
         .responseJSON { [weak self] response in
+            //print(response)
             guard let statusCode = response.response?.statusCode else { return }
             if statusCode == 200 { self?.isFetching = false }
             print("Lesson fetch statusCode : \(statusCode)")

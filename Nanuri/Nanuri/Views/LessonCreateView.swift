@@ -87,7 +87,7 @@ struct LessonCreateView: View {
                                 Spacer()
                                 if district == viewModel.locationText {
                                     Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.mainTheme)
                                 }
                             }.padding(.horizontal)
                             .onTapGesture { viewModel.locationText = district }
@@ -168,6 +168,7 @@ struct LessonCreateView: View {
                     }
                 } label : {
                     Text("완료")
+                        .foregroundColor(.mainTheme)
                         .opacity(viewModel.payloadFillCheck || viewModel.isUploadProcessing ? 0.3 : 1)
                 }.disabled(viewModel.payloadFillCheck || viewModel.isUploadProcessing)
         )

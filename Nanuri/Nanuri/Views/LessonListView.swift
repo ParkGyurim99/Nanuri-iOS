@@ -111,7 +111,7 @@ struct LessonListView: View {
                                 } label : {
                                     HStack(spacing : 3) {
                                         Image(systemName : viewModel.sort_OnlyAvailable ? "checkmark.circle.fill" : "checkmark.circle")
-                                            .foregroundColor(viewModel.sort_OnlyAvailable ? .blue : .gray)
+                                            .foregroundColor(viewModel.sort_OnlyAvailable ? .mainTheme : .gray)
                                         Text("모집중인 클래스만 보기")
                                             .fontWeight(.semibold)
                                             .foregroundColor(.black)
@@ -196,8 +196,10 @@ struct LessonListView: View {
                         } label : {
                             HStack {
                                 Image(systemName : "arrow.up")
-                                Text("상단으로 이동").fontWeight(.semibold)
-                            }.padding()
+                                Text("상단으로 이동")
+                                    .fontWeight(.semibold)
+                            }.foregroundColor(.mainTheme)
+                            .padding()
                         }
                     }
                 }
@@ -206,10 +208,9 @@ struct LessonListView: View {
         .navigationBarHidden(true)
         .navigationTitle(Text(""))
         .fullScreenCover(isPresented: $viewModel.detailViewShow, onDismiss : viewModel.fetchLessons ) {
-            LessonInfoView(
-                lesson : viewModel.selectedLesson,
-                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lessonStatus: viewModel.selectedLesson.status)
-            )
+            LessonInfoView(viewModel.selectedLesson.creator,
+                viewModel : LessonInfoViewModel(hostUserId : viewModel.selectedLesson.creator, lesson : viewModel.selectedLesson)
+            ).preferredColorScheme(.light)
         }
         .onAppear {
             viewModel.selectedDistrict = District

@@ -13,12 +13,6 @@ struct Lessons : Codable {
     var body : [Lesson]
 }
 
-struct LessonInfo : Codable {
-    var count : Int
-    var status : Int
-    var body : Lesson
-}
-
 struct LessonsByUser : Codable {
     var count : Int
     var status : Int
@@ -37,12 +31,9 @@ struct Lesson : Codable, Hashable {
     var category : String
     var location : String
     var limitedNumber : Int
-    var participantNumber : Int
     var content: String
     var createDate : String // "2022-01-30T19:36:46.307"
     var status : Bool
-    var registrationStatus : Bool? // 신청 상태
-    var participantStatus : Bool? // 참가 중
     var images : [LessonImages]
 }
 

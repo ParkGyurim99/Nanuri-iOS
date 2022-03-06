@@ -12,38 +12,36 @@ struct LessonInfoView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel : LessonInfoViewModel
     
-    private let lesson : Lesson
     private let isMyPost : Bool
     
-    init(lesson : Lesson, viewModel : LessonInfoViewModel) {
+    init(_ creatorId : Int, viewModel : LessonInfoViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
-        self.lesson = lesson
-        if lesson.creator == UserService.shared.userInfo?.userId { self.isMyPost = true }
+        if creatorId == UserService.shared.userInfo?.userId { self.isMyPost = true }
         else { self.isMyPost = false }
     }
     
     var Title : some View {
         HStack {
             VStack(alignment : .leading, spacing : 5) {
-                Text(lesson.lessonName)
+                Text(viewModel.lesson.lessonName)
                     .font(.title)
                     .fontWeight(.bold)
-                Text(convertReturnedDateString(lesson.createDate) + " #" + lesson.category)
+                Text(convertReturnedDateString(viewModel.lesson.createDate) + " #" + viewModel.lesson.category)
                     .font(.headline)
                     .foregroundColor(.gray)
             }
             Spacer()
             VStack(spacing : 5) {
-                Text("##명 / \(lesson.limitedNumber)명")
+                Text("\(viewModel.lesson.participantNumber)명 / \(viewModel.lesson.limitedNumber)명")
                     .font(.title2)
                     .fontWeight(.semibold)
                 
-                Text(viewModel.lessonStatus ? "모집중" : "모집완료")
+                Text(viewModel.lesson.status ? "모집중" : "모집완료")
                     .font(.caption2)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .padding(5)
-                    .background(viewModel.lessonStatus ? Color.green.opacity(0.8) : Color.red.opacity(0.8))
+                    .background(viewModel.lesson.status ? Color.green.opacity(0.8) : Color.red.opacity(0.8))
                     .cornerRadius(20)
             }
         }.padding(.horizontal)
@@ -102,6 +100,7 @@ struct LessonInfoView: View {
                 HStack {
                    Spacer()
                     Button {
+                        viewModel.actionSheetType = 0
                         viewModel.showActionSheet = true
                     } label : {
                         HStack {
@@ -120,22 +119,45 @@ struct LessonInfoView: View {
                     Text("로그인 후 신청할 수 있습니다 😆")
                         .fontWeight(.semibold)
                         .foregroundColor(.gray)
+                        .padding()
                 }
-                Button {
-//                    if UserService.shared.userInfo == nil {
-//                        print("로그인 후 이용하세요")
-//                    } else {
-                        print("신청 창으로 이동")
-//                    }
-                } label : {
-                    Text("신청하기")
-                        .strikethrough(!lesson.status)
-                        .foregroundColor(.white)
-                        .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
-                        .background(Color.blue.opacity(lesson.status  ? 1.0 : 0.5))
-                        .cornerRadius(20)
-                }.disabled(!lesson.status || UserService.shared.userInfo == nil)
-                    .opacity(UserService.shared.userInfo == nil  ? 0.5 : 1)
+                
+                // 참가자인지 확인하는 과정 필요
+                if let registrationStatus = viewModel.lesson.registrationStatus,
+                   let participantStatus = viewModel.lesson.participantStatus
+                {
+                    if registrationStatus == true && participantStatus == false {
+                        Text("클래스 호스트의 수락을 대기중입니다.")
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .padding()
+                    } else if registrationStatus == false && participantStatus == true {
+                        Text("이미 참가중인 클래스입니다.")
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .padding()
+                    } else if registrationStatus == false && participantStatus == false {
+                        Button {
+                            viewModel.actionSheetType = 1
+                            viewModel.showActionSheet = true
+                        } label : {
+                            VStack {
+                                if !viewModel.lesson.status {
+                                    Text("모집이 완료된 클래스입니다.")
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.gray)
+                                }
+                                Text("신청하기")
+                                    .fontWeight(.bold)
+                                    .strikethrough(!viewModel.lesson.status)
+                                    .foregroundColor(.white)
+                                    .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
+                                    .background(Color.mainTheme.opacity(viewModel.lesson.status  ? 1.0 : 0.5))
+                                    .cornerRadius(20)
+                            }
+                        }.disabled(!viewModel.lesson.status)
+                    }
+                }
             }
         }
     }
@@ -143,11 +165,11 @@ struct LessonInfoView: View {
     var body: some View {
         VStack {
             TabView {
-                if lesson.images.isEmpty {
+                if viewModel.lesson.images.isEmpty {
                     Color.blue
                         .edgesIgnoringSafeArea(.top)
                 } else {
-                    ForEach(lesson.images, id : \.self) { image in
+                    ForEach(viewModel.lesson.images, id : \.self) { image in
                         KFImage(URL(string : image.lessonImgId.lessonImg)
                                 ?? URL(string : "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg")!)
                             .fade(duration : 0.5)
@@ -198,14 +220,14 @@ struct LessonInfoView: View {
             if !viewModel.isImageTap {
                 Title
                 MemberInfo
-                Text(lesson.location)
+                Text(viewModel.lesson.location)
                     .font(.footnote)
                     .fontWeight(.light)
                     .frame(maxWidth : .infinity, alignment : .trailing)
                     .padding(.horizontal)
 
                 ScrollView {
-                    Text(lesson.content)
+                    Text(viewModel.lesson.content)
                         .frame(maxWidth : .infinity, alignment : .leading)
                         .padding(.horizontal)
                         .lineLimit(viewModel.seeMore ? .max : 4)
@@ -227,30 +249,64 @@ struct LessonInfoView: View {
         }.offset(y : viewModel.viewOffset)
         .edgesIgnoringSafeArea(.top)
         .navigationBarTitleDisplayMode(.inline)
-        .actionSheet(isPresented: $viewModel.showActionSheet) {
-            ActionSheet(title: Text("클래스 설정"),
-                        buttons: [
-                            .default(Text("모집 상태 변경")) {
-                                viewModel.updateLessonStatus(lesson.lessonId)
-                                //presentationMode.wrappedValue.dismiss()
-                                viewModel.lessonStatus.toggle()
-                            },
-                            .destructive(Text("클래스 삭제")) {
-                                viewModel.showDeleteConfirmationMessage = true
-                            },
-                            .cancel(Text("취소"))
-                        ]
-            )
+        .onAppear { viewModel.fetchLessonInfo() }
+        .sheet(isPresented: $viewModel.showApplicant, onDismiss: viewModel.fetchLessonInfo) {
+            LessonApplicantModalView(isPresented : $viewModel.showApplicant, lessonId : viewModel.lesson.lessonId)
         }
-        .alert(isPresented: $viewModel.showDeleteConfirmationMessage) {
-            Alert(title: Text("알림\n"),
-                  message : Text("클래스를 삭제하시겠습니까?"),
-                  primaryButton: .destructive(Text("클래스 삭제")) {
-                                        viewModel.deleteLesson(lesson.lessonId)
-                                        presentationMode.wrappedValue.dismiss()
+        .sheet(isPresented: $viewModel.showParticipant, onDismiss: viewModel.fetchLessonInfo) {
+            LessonParticipantModalView(isPresented: $viewModel.showParticipant, lessonId: viewModel.lesson.lessonId)
+        }
+        .actionSheet(isPresented: $viewModel.showActionSheet) {
+            if viewModel.actionSheetType == 0 {
+                return ActionSheet(title: Text("클래스 설정"),
+                            buttons: [
+                                .default(Text("신청자 관리")) {
+                                    viewModel.showApplicant = true
                                 },
-                  secondaryButton: .cancel(Text("취소"))
-            )
+                                .default(Text("참가자 관리")) {
+                                    viewModel.showParticipant = true
+                                },
+                                .default(Text("모집 상태 변경")) {
+                                    viewModel.updateLessonStatus(viewModel.lesson.lessonId)
+                                    //presentationMode.wrappedValue.dismiss()
+                                    viewModel.lesson.status.toggle()
+                                },
+                                .destructive(Text("클래스 삭제")) {
+                                    viewModel.alertType = 0
+                                    viewModel.showAlert = true
+                                },
+                                .cancel(Text("취소"))
+                            ]
+                )
+            } else {
+                return ActionSheet(title: Text("해당 클래스를 신청하시겠습니까?"),
+                            buttons: [
+                                .default(Text("신청하기")) {
+                                    viewModel.participateLesson(viewModel.lesson.lessonId)
+                                    viewModel.alertType = 1
+                                    viewModel.showAlert = true
+                                },
+                                .cancel(Text("취소"))
+                            ]
+                )
+            }
+        }
+        .alert(isPresented: $viewModel.showAlert) {
+            if viewModel.alertType == 0 {
+                return Alert(title: Text("알림\n"),
+                      message : Text("클래스를 삭제하시겠습니까?"),
+                      primaryButton: .destructive(Text("클래스 삭제")) {
+                                            viewModel.deleteLesson(viewModel.lesson.lessonId)
+                                            presentationMode.wrappedValue.dismiss()
+                                    },
+                      secondaryButton: .cancel(Text("취소"))
+                )
+            } else { // alertType == 1
+                return Alert(title: Text("클래스 신청 완료 😁\n"),
+                            message : Text("클래스 개설자의 승인 후 수강이 확정됩니다."),
+                            dismissButton: .default(Text("확인"))
+                )
+            }
         }
         .gesture(
             DragGesture()
