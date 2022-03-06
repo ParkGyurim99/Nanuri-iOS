@@ -119,21 +119,45 @@ struct LessonInfoView: View {
                     Text("로그인 후 신청할 수 있습니다 😆")
                         .fontWeight(.semibold)
                         .foregroundColor(.gray)
+                        .padding()
                 }
+                
                 // 참가자인지 확인하는 과정 필요
-                // else if  {이미 참가한 클래스입니다.}
-                Button {
-                    viewModel.actionSheetType = 1
-                    viewModel.showActionSheet = true
-                } label : {
-                    Text("신청하기")
-                        .strikethrough(!viewModel.lesson.status)
-                        .foregroundColor(.white)
-                        .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
-                        .background(Color.blue.opacity(viewModel.lesson.status  ? 1.0 : 0.5))
-                        .cornerRadius(20)
-                }.disabled(!viewModel.lesson.status || UserService.shared.userInfo == nil)
-                    .opacity(UserService.shared.userInfo == nil  ? 0.5 : 1)
+                if let registrationStatus = viewModel.lesson.registrationStatus,
+                   let participantStatus = viewModel.lesson.participantStatus
+                {
+                    if registrationStatus == true && participantStatus == false {
+                        Text("클래스 호스트의 수락을 대기중입니다.")
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .padding()
+                    } else if registrationStatus == false && participantStatus == true {
+                        Text("이미 참가중인 클래스입니다.")
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .padding()
+                    } else if registrationStatus == false && participantStatus == false {
+                        Button {
+                            viewModel.actionSheetType = 1
+                            viewModel.showActionSheet = true
+                        } label : {
+                            VStack {
+                                if !viewModel.lesson.status {
+                                    Text("모집이 완료된 클래스입니다.")
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.gray)
+                                }
+                                Text("신청하기")
+                                    .fontWeight(.bold)
+                                    .strikethrough(!viewModel.lesson.status)
+                                    .foregroundColor(.white)
+                                    .frame(width : UIScreen.main.bounds.width * 0.9, height: 50)
+                                    .background(Color.mainTheme.opacity(viewModel.lesson.status  ? 1.0 : 0.5))
+                                    .cornerRadius(20)
+                            }
+                        }.disabled(!viewModel.lesson.status)
+                    }
+                }
             }
         }
     }

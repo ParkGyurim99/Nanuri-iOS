@@ -31,10 +31,10 @@ struct ContentView: View {
                             .onTapGesture {withAnimation { isLocationBtnClicked = false }}
                     )
                     
-                    Color.blue
-                        .frame(width : UIScreen.main.bounds.width * 0.5, height : 3)
-                        .offset(x : selectedTab == 0 ? -UIScreen.main.bounds.width * 0.25
-                                                     : UIScreen.main.bounds.width * 0.25)
+                    Color.mainTheme
+                        .frame(width : UIScreen.main.bounds.width * 0.5, height : 5)
+                        .cornerRadius(10)
+                        .offset(x : selectedTab == 0 ? -UIScreen.main.bounds.width * 0.25 : UIScreen.main.bounds.width * 0.25)
                         
                     HStack {
                         Button {
@@ -48,7 +48,7 @@ struct ContentView: View {
                                     .fontWeight(.semibold)
                             }
                         }.frame(width: UIScreen.main.bounds.width * 0.4,height: 50)
-                        .foregroundColor(selectedTab == 0 ? .blue : .gray)
+                        .foregroundColor(selectedTab == 0 ? .mainTheme : .gray)
                         
                         Button {
                             withAnimation(.spring()) {selectedTab = 1}
@@ -61,7 +61,7 @@ struct ContentView: View {
                                     .fontWeight(.semibold)
                             }
                         }.frame(width: UIScreen.main.bounds.width * 0.4,height: 50)
-                        .foregroundColor(selectedTab == 1 ? .blue : .gray)
+                        .foregroundColor(selectedTab == 1 ? .mainTheme : .gray)
                     }.padding(.top, 7)
                     .padding(.bottom, 25)
                 }.edgesIgnoringSafeArea(.bottom)
@@ -99,7 +99,7 @@ struct ContentView: View {
                     .zIndex(3)
                 }
             } // ZStack
-        }
+        }.accentColor(.mainTheme)
     }
 }
 

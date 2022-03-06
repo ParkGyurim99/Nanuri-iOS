@@ -24,8 +24,10 @@ struct MyPageView: View {
                 .padding(.horizontal)
                 .padding(.top)
             Spacer()
+            /*
             Image(systemName: "gearshape.fill")
                 .font(.system(size: 25))
+            */
         }.padding()
     }
     var LoginOption : some View {
